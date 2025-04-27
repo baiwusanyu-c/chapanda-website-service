@@ -16,6 +16,12 @@ import {
   CookieResolver,
   AcceptLanguageResolver,
 } from 'nestjs-i18n';
+import { UserModule } from './user/user.module';
+import { User } from './user/entities/user.entity';
+import { Menu } from './menu/entities/menu.entity';
+import { Permission } from './user/entities/permission.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { MenuModule } from './menu/menu.module';
 
 const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
 
@@ -93,6 +99,30 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
         AcceptLanguageResolver,
       ],
     }),
+    // 数据库连接配置
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: '127.0.0.1',
+      port: 3306,
+      username: 'root',
+      password: '123456',
+      database: 'chapanda-website-database',
+      synchronize: true, // 同步建表，没Entity 对应表的时候插入数据会自动创建表, 生产环境禁止打开
+      logging: true, // 是打印生成的 sql 语句。
+      entities: [User, Permission, Menu], // entities 是指定有哪些和数据库的表对应的 Entity。['**/entity/*.ts']
+      migrations: [], // 是修改表结构之类的 sql,
+      subscribers: [], // 是一些 Entity 生命周期的订阅者，比如 insert、update、remove 前后，可以加入一些逻辑：
+      // beforInsert, updateInsert ...
+      connectorPackage: 'mysql2', // 指定用什么驱动包。
+      poolSize: 10, // 连接池最大数量
+      extra: {
+        // 额外发送给驱动包的一些选项
+        authPlugin: 'sha256_password',
+        multipleStatements: true,
+      },
+    }),
+    UserModule,
+    MenuModule,
   ],
   controllers: [AppController],
   providers: [

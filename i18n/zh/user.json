@@ -1,0 +1,19 @@
+{
+  "password": {
+    "empty": "密码不能为空",
+    "length": "密码最少 6 位"
+  },
+  "username": {
+    "empty": "用户名不能为空",
+    "emptyId": "用户名ID不能为空"
+  },
+  "email": {
+    "empty": "邮箱不能为空"
+  },
+  "create": {
+    "success": "创建用户成功"
+  },
+  "exception": {
+    "exist": "用户已存在"
+  }
+}

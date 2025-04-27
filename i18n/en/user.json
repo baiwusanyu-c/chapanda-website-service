@@ -1,0 +1,19 @@
+{
+  "password": {
+    "empty": "The password cannot be empty",
+    "length": "The minimum password is 6 digits"
+  },
+  "username": {
+    "empty": "The username cannot be empty",
+    "emptyId": "The username id cannot be empty"
+  },
+  "email": {
+    "empty": "The email cannot be empty"
+  },
+  "create": {
+    "success": "create user successfully"
+  },
+  "exception": {
+    "exist": "The user already exists"
+  }
+}
