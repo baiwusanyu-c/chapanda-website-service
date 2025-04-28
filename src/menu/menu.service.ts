@@ -35,7 +35,6 @@ export class MenuService {
       throw new HttpException(this.i18nGetter('menu.exception.exist'), 200);
     }
     try {
-      // TODO: level
       const query = `
           START TRANSACTION;
           SET @new_id = UUID();
@@ -52,14 +51,24 @@ export class MenuService {
               CONVERT(@menu_parent_id USING utf8mb4) COLLATE utf8mb4_0900_ai_ci
             )
           );
-          INSERT INTO menu (id, name, icon, path, parentId, \`order\`)
+          SET @menu_level = (
+            SELECT COALESCE(MAX(\`level\`), 0) + 1
+            FROM menu
+            WHERE id <=> 
+              IF(@menu_parent_id IS NULL, 
+                NULL, 
+                CONVERT(@menu_parent_id USING utf8mb4) COLLATE utf8mb4_0900_ai_ci
+              )
+          );
+          INSERT INTO menu (id, name, icon, path, parentId, \`order\`, level)
           VALUES (
            @new_id,
            @menu_name,
            @menu_icon,
            @menu_path,
            @menu_parent_id,
-           @new_order
+           @new_order,
+           @menu_level
           );
           
           -- 复制插入节点的祖先节点，比如
