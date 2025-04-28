@@ -6,18 +6,12 @@ import {
   EntityManager,
   // Repository
 } from 'typeorm';
-import * as crypto from 'crypto';
 import { WINSTON_LOGGER_TOKEN } from '../logger/logger.module';
 import { ChaPandaLogger } from '../logger/logger.service';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from './entities/user.entity';
 import { I18nContext, I18nService } from 'nestjs-i18n';
-
-function md5(str: string) {
-  const hash = crypto.createHash('md5');
-  hash.update(str);
-  return hash.digest('hex');
-}
+import { md5 } from '../utils';
 
 @Injectable()
 export class UserService {
@@ -81,14 +75,10 @@ export class UserService {
   findOne(id: number) {}
   async findUserByEmail(email: string) {
     try {
-      const query = `
-          START TRANSACTION; 
-           SELECT * FROM user WHERE email = ?;
-          COMMIT;`;
-
-      const res = await this.manager.query<User>(query, [email]);
+      const query = `SELECT * FROM user WHERE email = ?;`;
+      const res = await this.manager.query<User[]>(query, [email]);
       return {
-        success: true,
+        success: res.length,
         res,
       };
     } catch (error) {

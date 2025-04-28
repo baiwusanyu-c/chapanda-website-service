@@ -1,13 +1,18 @@
 import {
-  Entity,
+  Tree,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
+  TreeParent,
   OneToMany,
+  TreeChildren,
+  Entity,
 } from 'typeorm';
 import { Permission } from '../../user/entities/permission.entity';
 
 @Entity()
+@Tree('closure-table', {
+  closureTableName: 'menu_closure', // 指定闭包表名
+})
 export class Menu {
   @PrimaryGeneratedColumn('uuid', {
     comment: '主键',
@@ -26,12 +31,12 @@ export class Menu {
   @Column({ nullable: true, comment: '父级菜单id' })
   parentId: string;
 
-  // 表自关联，关联父级菜单
-  @ManyToOne(() => Menu, (menu) => menu.children)
-  parent: Menu;
-  // 表自关联，关联子级菜单
-  @OneToMany(() => Menu, (menu) => menu.parent)
-  children: Menu[];
+  // 关联父级菜单
+  @TreeParent()
+  parent?: Menu;
+  // 关联子级菜单
+  @TreeChildren()
+  children?: Menu[];
 
   @OneToMany(() => Permission, (permission) => permission.menu)
   permissions: Permission[];

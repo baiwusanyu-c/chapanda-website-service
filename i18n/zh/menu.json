@@ -1,0 +1,19 @@
+{
+  "icon": {
+    "length": "菜单图标最多 50 位"
+  },
+  "name": {
+    "empty": "菜单名不能为空",
+    "length": "菜单名最多 50 位"
+  },
+  "create": {
+    "success": "菜单创建成功!"
+  },
+  "path": {
+    "empty": "菜单路径不能为空",
+    "length": "菜单路径最多 500 位"
+  },
+  "exception": {
+    "exist": "菜单已经存在"
+  }
+}
