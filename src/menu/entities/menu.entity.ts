@@ -11,7 +11,7 @@ import { Permission } from '../../user/entities/permission.entity';
 
 @Entity()
 @Tree('closure-table', {
-  closureTableName: 'menu_closure', // 指定闭包表名
+  closureTableName: 'menu', // 指定闭包表名
 })
 export class Menu {
   @PrimaryGeneratedColumn('uuid', {
@@ -29,7 +29,7 @@ export class Menu {
   path: string;
 
   @Column({ nullable: true, comment: '父级菜单id' })
-  parentId: string;
+  parentId?: string;
 
   // 关联父级菜单
   @TreeParent()
@@ -43,4 +43,7 @@ export class Menu {
 
   @Column({ type: 'int', default: 0, comment: '排序权重' })
   order: number;
+
+  @Column({ type: 'int', default: 0, comment: '层级' })
+  level: number;
 }

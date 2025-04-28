@@ -12,8 +12,8 @@ export class CreateMenuDto {
   icon?: string;
 
   @ApiProperty({ name: '菜单路径', type: String })
-  @IsNotEmpty({ message: 'user.password.empty' })
-  @MaxLength(500, { message: 'user.password.length' })
+  @IsNotEmpty({ message: 'menu.path.empty' })
+  @MaxLength(500, { message: 'menu.path.length' })
   path: string;
 
   @ApiProperty({ name: '父菜单节点Id', type: String })
