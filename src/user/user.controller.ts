@@ -1,9 +1,14 @@
-import { Controller, Post, Body, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiResponse, ApiBody, getSchemaPath } from '@nestjs/swagger';
-import { genSchema, ResponseDto, StatusCode } from '../utils';
+import {
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiExtraModels,
+} from '@nestjs/swagger';
+import { ApiResponseDto, genResContent } from '../utils';
 
 @Controller('user')
 export class UserController {
@@ -14,10 +19,11 @@ export class UserController {
     summary: '创建用户',
     description: '创建用户接口',
   })
+  @ApiExtraModels(ApiResponseDto)
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: 200,
     description: '创建用户成功',
-    type: ResponseDto<CreateUserDto>, // 动态指定泛型类型
+    content: genResContent(),
   })
   @ApiBody({
     type: CreateUserDto,
