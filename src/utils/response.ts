@@ -3,19 +3,26 @@ import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 export const StatusCode = {
   OK: 200,
   UnknownError: 500,
+  BadRequest: 400,
 };
 
 export type StatusCodeType = (typeof StatusCode)[keyof typeof StatusCode];
 
 export interface ChapandaResponse<T> {
   code: StatusCodeType;
-  data: T;
+  data: T | null;
+  message?: string;
 }
 
-export function genResponse<T>(code: StatusCodeType, response: T) {
+export function genResponse<T>(
+  code: StatusCodeType,
+  response: T,
+  message: string,
+) {
   return {
     code,
     data: response,
+    message,
   } as ChapandaResponse<T>;
 }
 

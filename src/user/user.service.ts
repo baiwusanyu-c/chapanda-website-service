@@ -33,7 +33,10 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     const has = await this.findUserByEmail(createUserDto.email);
     if (has && has.success) {
-      throw new HttpException(this.i18nGetter('user.exception.exist'), 200);
+      throw new HttpException(
+        this.i18nGetter('user.exception.exist'),
+        StatusCode.OK,
+      );
     }
     try {
       const hashPassword = md5(createUserDto.password);
@@ -52,14 +55,16 @@ export class UserService {
         createUserDto.email,
         uuid,
       ]);
-      return genResponse<string>(
+      return genResponse<null>(
         StatusCode.OK,
+        null,
         this.i18nGetter('user.create.success'),
       );
     } catch (error) {
       this.logger.error(error, UserService.name);
-      return genResponse<string>(
+      return genResponse<null>(
         StatusCode.UnknownError,
+        null,
         (error as ErrorEvent).message,
       );
     }

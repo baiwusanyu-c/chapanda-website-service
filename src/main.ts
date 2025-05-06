@@ -3,7 +3,8 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WINSTON_LOGGER_TOKEN } from './logger/logger.module';
-import { I18nValidationExceptionFilter, I18nValidationPipe } from 'nestjs-i18n';
+import { I18nValidationPipe } from 'nestjs-i18n';
+import { UnifiedExceptionFilter } from './unified-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -23,11 +24,7 @@ async function bootstrap() {
 
   // i18n 校验验证
   app.useGlobalPipes(new I18nValidationPipe());
-  app.useGlobalFilters(
-    new I18nValidationExceptionFilter({
-      detailedErrors: false,
-    }),
-  );
+  app.useGlobalFilters(new UnifiedExceptionFilter());
 
   // 将 Nest 默认的日志记录器替换为你指定的日志器
   app.useLogger(app.get(WINSTON_LOGGER_TOKEN));
