@@ -26,7 +26,7 @@ export function genResponse<T>(
   } as ChapandaResponse<T>;
 }
 
-export function genResContent<T>(dto?: T) {
+export function genResContent<T>(dto: T) {
   return {
     'application/json': {
       schema: {
@@ -34,8 +34,12 @@ export function genResContent<T>(dto?: T) {
           { $ref: getSchemaPath(ApiResponseDto) },
           {
             properties: {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-              data: { $ref: getSchemaPath(dto as Function) },
+              data: dto
+                ? { $ref: getSchemaPath(dto as any) }
+                : {
+                    nullable: true,
+                    type: 'null',
+                  },
             },
           },
         ],
@@ -49,7 +53,7 @@ export class ApiResponseDto<T> {
     description: '响应数据',
     nullable: true,
   })
-  data?: T;
+  data: T | null;
   @ApiProperty({
     enum: StatusCode,
     enumName: 'Code',
@@ -63,5 +67,5 @@ export class ApiResponseDto<T> {
     nullable: true,
     type: 'string',
   })
-  message?: string;
+  message: string;
 }

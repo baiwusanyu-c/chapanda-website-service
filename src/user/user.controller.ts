@@ -7,6 +7,7 @@ import {
   ApiResponse,
   ApiBody,
   ApiExtraModels,
+  ApiHeader,
 } from '@nestjs/swagger';
 import { ApiResponseDto, genResContent } from '../utils';
 
@@ -19,14 +20,24 @@ export class UserController {
     summary: '创建用户',
     description: '创建用户接口',
   })
+  @ApiHeader({
+    name: 'x-custom-lang', // 请求头名称
+    description: '语言标识 (可选)', // 描述
+    required: false, // 标记为可选
+    example: 'zh', // 示例值
+    schema: {
+      type: 'string',
+      enum: ['zh', 'en'], // 可选枚举值
+    },
+  })
+  @ApiBody({
+    type: CreateUserDto,
+  })
   @ApiExtraModels(ApiResponseDto)
   @ApiResponse({
     status: 200,
     description: '创建用户成功',
-    content: genResContent(),
-  })
-  @ApiBody({
-    type: CreateUserDto,
+    content: genResContent(null),
   })
   @Post('create')
   create(@Body() createUserDto: CreateUserDto) {

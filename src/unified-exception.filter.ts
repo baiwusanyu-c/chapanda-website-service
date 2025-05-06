@@ -56,6 +56,6 @@ export class UnifiedExceptionFilter implements ExceptionFilter {
       null, // data 字段设为 null
       message,
     );
-    response.status(statusCode).json(unifiedResponse);
+    response.status(200).json(unifiedResponse);
   }
 }
