@@ -1,17 +1,14 @@
-import { Injectable, Inject, HttpException } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import {
-  EntityManager,
-  // Repository
-} from 'typeorm';
+import { EntityManager } from 'typeorm';
 import { WINSTON_LOGGER_TOKEN } from '../logger/logger.module';
 import { ChaPandaLogger } from '../logger/logger.service';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from './entities/user.entity';
 import { I18nContext, I18nService } from 'nestjs-i18n';
-import { md5 } from '../utils';
+import { genResponse, md5, StatusCode } from '../utils';
 
 @Injectable()
 export class UserService {
@@ -55,16 +52,16 @@ export class UserService {
         createUserDto.email,
         uuid,
       ]);
-      return {
-        success: true,
-        message: this.i18nGetter('user.create.success'),
-      };
+      return genResponse<string>(
+        StatusCode.OK,
+        this.i18nGetter('user.create.success'),
+      );
     } catch (error) {
       this.logger.error(error, UserService.name);
-      return {
-        success: true,
-        message: (error as ErrorEvent).message,
-      };
+      return genResponse<string>(
+        StatusCode.UnknownError,
+        (error as ErrorEvent).message,
+      );
     }
   }
 
