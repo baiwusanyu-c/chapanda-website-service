@@ -45,7 +45,7 @@ export function genResContent<T>(dto: T, isArray: boolean = false) {
       },
     };
   }
-  const res = {
+  return {
     'application/json': {
       schema: {
         allOf: [
@@ -59,14 +59,9 @@ export function genResContent<T>(dto: T, isArray: boolean = false) {
       },
     },
   };
-  return res;
 }
 
-export class ApiResponseDto<T> {
-  @ApiProperty({
-    description: '响应数据',
-  })
-  data: T | null;
+export class ApiResponseDto {
   @ApiProperty({
     enum: StatusCode,
     enumName: 'Code',
