@@ -26,32 +26,45 @@ export function genResponse<T>(
   } as ChapandaResponse<T>;
 }
 
-export function genResContent<T>(dto: T) {
-  return {
+export function genResContent<T>(dto: T, isArray: boolean = false) {
+  let schema = dto
+    ? {
+        nullable: true,
+        $ref: getSchemaPath(dto as any),
+      }
+    : {
+        nullable: true,
+        type: 'null',
+      };
+  if (isArray) {
+    schema = {
+      type: 'array',
+      // @ts-expect-error ignore items
+      items: {
+        $ref: getSchemaPath(dto as any),
+      },
+    };
+  }
+  const res = {
     'application/json': {
       schema: {
         allOf: [
           { $ref: getSchemaPath(ApiResponseDto) },
           {
             properties: {
-              data: dto
-                ? { $ref: getSchemaPath(dto as any) }
-                : {
-                    nullable: true,
-                    type: 'null',
-                  },
+              data: schema,
             },
           },
         ],
       },
     },
   };
+  return res;
 }
 
 export class ApiResponseDto<T> {
   @ApiProperty({
     description: '响应数据',
-    nullable: true,
   })
   data: T | null;
   @ApiProperty({

@@ -19,13 +19,16 @@ export class UserService {
   @Inject()
   i18n: I18nService;
 
-  i18nGetter(key: string) {
+  i18nGetter(key: string, operation?: string) {
     return this.i18n.t<string, string>(
       // 文案的 key
       key,
       {
         // 当前语言
         lang: I18nContext.current()!.lang,
+        args: {
+          operation,
+        },
       },
     );
   }
@@ -70,11 +73,51 @@ export class UserService {
     }
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    try {
+      const query = `SELECT * FROM user;`;
+      const res = (await this.manager.query<User[]>(query)).map((v) => {
+        Reflect.deleteProperty(v, 'password');
+        return v;
+      });
+      return genResponse<User[]>(
+        StatusCode.OK,
+        res,
+        this.i18nGetter('common.success'),
+      );
+    } catch (error) {
+      this.logger.error(error, UserService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
   }
 
-  findOne(id: number) {}
+  async findOne(id: string) {
+    try {
+      const query = `SELECT * FROM user WHERE id = ?;`;
+      const res = await this.manager.query<User[]>(query, [id]);
+      const user = res[0];
+      if (user) {
+        Reflect.deleteProperty(user, 'password');
+      }
+      return genResponse<User>(
+        StatusCode.OK,
+        user,
+        this.i18nGetter('common.success'),
+      );
+    } catch (error) {
+      this.logger.error(error, UserService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
+  }
+
   async findUserByEmail(email: string) {
     try {
       const query = `SELECT * FROM user WHERE email = ?;`;
