@@ -75,7 +75,10 @@ export class UserService {
 
   async findAll() {
     try {
-      const query = `SELECT * FROM user;`;
+      const query = `
+      START TRANSACTION; 
+      SELECT * FROM user;
+      COMMIT;`;
       const res = (await this.manager.query<User[]>(query)).map((v) => {
         Reflect.deleteProperty(v, 'password');
         return v;
@@ -101,9 +104,12 @@ export class UserService {
     }
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, hasPassword = false) {
     try {
-      const query = `SELECT * FROM user WHERE id = ?;`;
+      const query = `
+        START TRANSACTION; 
+        SELECT * FROM user WHERE id = ?;
+        COMMIT;`;
       const res = await this.manager.query<User[]>(query, [id]);
       if (!res.length) {
         throw new HttpException(
@@ -112,7 +118,7 @@ export class UserService {
         );
       }
       const user = res[0];
-      if (user) {
+      if (user && !hasPassword) {
         Reflect.deleteProperty(user, 'password');
       }
       return genResponse<User>(
@@ -132,7 +138,10 @@ export class UserService {
 
   async findUserByEmail(email: string) {
     try {
-      const query = `SELECT * FROM user WHERE email = ?;`;
+      const query = `
+      START TRANSACTION; 
+      SELECT * FROM user WHERE email = ?;
+      COMMIT;`;
       const res = await this.manager.query<User[]>(query, [email]);
       return {
         success: res.length,
@@ -143,14 +152,51 @@ export class UserService {
     }
   }
 
-  // TODO
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(updateUserDto: UpdateUserDto) {
+    try {
+      const id = updateUserDto.id;
+      const userRes = await this.findOne(id, true);
+      if (userRes.code === StatusCode.OK && userRes.data) {
+        const hashPassword = updateUserDto.password
+          ? md5(updateUserDto.password)
+          : userRes.data.password;
+        const query = `START TRANSACTION; 
+                       UPDATE user 
+                       SET 
+                        \`username\`= ?, 
+                        \`password\`= ?, 
+                        \`email\`= ?,
+                        \`updateTime\`= CURRENT_TIMESTAMP(6)
+                       WHERE \`id\` = ?;
+                       COMMIT;`;
+        await this.manager.query(query, [
+          updateUserDto.username || userRes.data.username,
+          hashPassword,
+          updateUserDto.email || userRes.data.email,
+          id,
+        ]);
+        return genResponse<null>(
+          StatusCode.OK,
+          null,
+          this.i18nGetter('user.update.success'),
+        );
+      }
+    } catch (error) {
+      this.logger.error(error, UserService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
   }
 
   async remove(id: string) {
     try {
-      const query = `DELETE FROM user WHERE id = ?;`;
+      const query = `
+      START TRANSACTION;
+      DELETE FROM user WHERE id = ?;
+      COMMIT;`;
       await this.manager.query<User[]>(query, [id]);
       return genResponse<null>(
         StatusCode.OK,

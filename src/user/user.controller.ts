@@ -80,9 +80,22 @@ export class UserController {
     return this.userService.findOne(findRemoveUserDto.id);
   }
 
+  @ApiOperation({
+    summary: '更新用户',
+    description: '更新用户接口',
+  })
+  @ApiBody({
+    type: UpdateUserDto,
+  })
+  @ApiResponse({
+    status: StatusCode.OK,
+    description: '更新成功',
+    content: genResContent(null),
+  })
+  @HttpCode(StatusCode.OK)
   @Post('update')
   update(@Body() updateUserDto: UpdateUserDto) {
-    return 'this.userService.update( updateUserDto);';
+    return this.userService.update(updateUserDto);
   }
 
   @ApiOperation({
@@ -97,6 +110,7 @@ export class UserController {
     description: '删除成功',
     content: genResContent(null),
   })
+  @HttpCode(StatusCode.OK)
   @Post('remove')
   remove(@Body() findRemoveUserDto: FindRemoveUserDto) {
     return this.userService.remove(findRemoveUserDto.id);

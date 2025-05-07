@@ -16,6 +16,9 @@
   "remove": {
     "success": "remove user successfully"
   },
+  "update": {
+    "success": "update user successfully"
+  },
   "exception": {
     "exist": "The user already exists",
     "noExist": "The user not exists"

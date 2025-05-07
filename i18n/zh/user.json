@@ -16,6 +16,9 @@
   "remove": {
     "success": "删除用户成功"
   },
+  "update": {
+    "success": "更新用户成功"
+  },
   "exception": {
     "exist": "用户已存在",
     "noExist": "用户不存在"
