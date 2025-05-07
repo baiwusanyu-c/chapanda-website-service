@@ -80,6 +80,12 @@ export class UserService {
         Reflect.deleteProperty(v, 'password');
         return v;
       });
+      if (!res.length) {
+        throw new HttpException(
+          this.i18nGetter('user.exception.noExist'),
+          StatusCode.OK,
+        );
+      }
       return genResponse<User[]>(
         StatusCode.OK,
         res,
@@ -99,6 +105,12 @@ export class UserService {
     try {
       const query = `SELECT * FROM user WHERE id = ?;`;
       const res = await this.manager.query<User[]>(query, [id]);
+      if (!res.length) {
+        throw new HttpException(
+          this.i18nGetter('user.exception.noExist'),
+          StatusCode.OK,
+        );
+      }
       const user = res[0];
       if (user) {
         Reflect.deleteProperty(user, 'password');
@@ -135,8 +147,23 @@ export class UserService {
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
   }
-  // TODO
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+
+  async remove(id: string) {
+    try {
+      const query = `DELETE FROM user WHERE id = ?;`;
+      await this.manager.query<User[]>(query, [id]);
+      return genResponse<null>(
+        StatusCode.OK,
+        null,
+        this.i18nGetter('user.remove.success'),
+      );
+    } catch (error) {
+      this.logger.error(error, UserService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
   }
 }

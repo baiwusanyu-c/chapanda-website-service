@@ -13,7 +13,11 @@
   "create": {
     "success": "create user successfully"
   },
+  "remove": {
+    "success": "remove user successfully"
+  },
   "exception": {
-    "exist": "The user already exists"
+    "exist": "The user already exists",
+    "noExist": "The user not exists"
   }
 }

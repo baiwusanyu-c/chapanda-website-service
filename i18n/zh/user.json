@@ -13,7 +13,11 @@
   "create": {
     "success": "创建用户成功"
   },
+  "remove": {
+    "success": "删除用户成功"
+  },
   "exception": {
-    "exist": "用户已存在"
+    "exist": "用户已存在",
+    "noExist": "用户不存在"
   }
 }
