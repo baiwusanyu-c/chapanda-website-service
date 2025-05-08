@@ -7,6 +7,7 @@ import { WINSTON_LOGGER_TOKEN } from '../logger/logger.module';
 import { ChaPandaLogger } from '../logger/logger.service';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { Menu } from './entities/menu.entity';
+import { genResponse, StatusCode } from '../utils';
 
 @Injectable()
 export class MenuService {
@@ -31,7 +32,7 @@ export class MenuService {
 
   async create(createMenuDto: CreateMenuDto) {
     const has = await this.findMenuByPath(createMenuDto.path);
-    if (has && has.success) {
+    if (has && has.code === StatusCode.OK) {
       throw new HttpException(this.i18nGetter('menu.exception.exist'), 200);
     }
     try {
@@ -101,41 +102,55 @@ export class MenuService {
         createMenuDto.path,
         createMenuDto.parentId || null,
       ]);
-      return {
-        success: true,
-        message: this.i18nGetter('menu.create.success'),
-      };
+      return genResponse<null>(
+        StatusCode.OK,
+        null,
+        this.i18nGetter('menu.create.success'),
+      );
     } catch (error) {
       this.logger.error(error, MenuService.name);
-      return {
-        success: true,
-        message: (error as ErrorEvent).message,
-      };
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
     }
   }
 
   async findMenuByPath(path: string) {
     try {
-      const query = `SELECT * FROM menu WHERE path = ?;`;
+      const query = `
+      START TRANSACTION;
+      SELECT * FROM menu WHERE path = ?;
+      COMMIT;`;
       const res = await this.manager.query<Menu[]>(query, [path]);
-      return {
-        success: res.length,
-        res,
-      };
+      return genResponse<Menu[]>(StatusCode.OK, res, '');
     } catch (error) {
       this.logger.error(error, MenuService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
     }
   }
 
   async findTreeMenus() {
     try {
       const res = await this.manager.getTreeRepository(Menu).findTrees();
-      return {
-        success: true,
+
+      return genResponse<Menu[]>(
+        StatusCode.OK,
         res,
-      };
+        this.i18nGetter('user.remove.success'),
+      );
     } catch (error) {
       this.logger.error(error, MenuService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
     }
   }
 }
