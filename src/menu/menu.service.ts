@@ -32,13 +32,14 @@ export class MenuService {
 
   async create(createMenuDto: CreateMenuDto) {
     const has = await this.findMenuByPath(createMenuDto.path);
-    if (has && has.code === StatusCode.OK) {
+    if (has && has.success) {
       throw new HttpException(this.i18nGetter('menu.exception.exist'), 200);
     }
     try {
       const query = `
           START TRANSACTION;
           SET @new_id = UUID();
+          SET @menu_name_en = ?;
           SET @menu_name = ?;
           SET @menu_icon = ?;
           SET @menu_path = ?;
@@ -61,9 +62,10 @@ export class MenuService {
                 CONVERT(@menu_parent_id USING utf8mb4) COLLATE utf8mb4_0900_ai_ci
               )
           );
-          INSERT INTO menu (id, name, icon, path, parentId, \`order\`, level)
+          INSERT INTO menu (id, nameEn, name, icon, path, parentId, \`order\`, level)
           VALUES (
            @new_id,
+           @menu_name_en
            @menu_name,
            @menu_icon,
            @menu_path,
@@ -97,6 +99,7 @@ export class MenuService {
           COMMIT;
       `;
       await this.manager.query<User>(query, [
+        createMenuDto.nameEn,
         createMenuDto.name,
         createMenuDto.icon,
         createMenuDto.path,
@@ -121,14 +124,12 @@ export class MenuService {
     try {
       const query = `SELECT * FROM menu WHERE path = ?;`;
       const res = await this.manager.query<Menu[]>(query, [path]);
-      return genResponse<Menu[]>(StatusCode.OK, res, '');
+      return {
+        success: res.length,
+        res,
+      };
     } catch (error) {
       this.logger.error(error, MenuService.name);
-      return genResponse<null>(
-        StatusCode.UnknownError,
-        null,
-        (error as ErrorEvent).message,
-      );
     }
   }
 

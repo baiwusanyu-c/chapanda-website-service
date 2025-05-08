@@ -27,8 +27,8 @@ export function genResponse<T>(
   } as ChapandaResponse<T>;
 }
 
-export function genResContent<T>(dto: T, isArray: boolean = false) {
-  let schema = dto
+export function genResContent<T>(dto: T, type?: string) {
+  let schema: Record<string, any> = dto
     ? {
         nullable: true,
         $ref: getSchemaPath(dto as any),
@@ -37,13 +37,31 @@ export function genResContent<T>(dto: T, isArray: boolean = false) {
         nullable: true,
         type: 'null',
       };
-  if (isArray) {
+  if (type === 'array') {
     schema = {
       type: 'array',
-      // @ts-expect-error ignore items
+      nullable: true,
       items: {
         $ref: getSchemaPath(dto as any),
       },
+    };
+  }
+  if (type === 'tree') {
+    schema = {
+      allOf: [
+        { $ref: getSchemaPath(dto as any) },
+        {
+          properties: {
+            children: {
+              type: 'array',
+              nullable: true,
+              items: {
+                $ref: getSchemaPath(dto as any),
+              },
+            },
+          },
+        },
+      ],
     };
   }
   return {

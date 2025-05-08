@@ -22,6 +22,9 @@ export class Menu {
   @Column({ length: 50, comment: '菜单名称' })
   name: string;
 
+  @Column({ length: 50, comment: '菜单名称(英文)' })
+  nameEn: string;
+
   @Column({ length: 50, nullable: true, comment: '菜单图标' })
   icon: string;
 

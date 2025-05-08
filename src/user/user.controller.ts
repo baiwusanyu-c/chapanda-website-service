@@ -57,7 +57,7 @@ export class UserController {
   @ApiResponse({
     status: StatusCode.OK,
     description: '查询成功',
-    content: genResContent(FindUserDto, true),
+    content: genResContent(FindUserDto, 'array'),
   })
   @HttpCode(StatusCode.OK)
   @Post('getAllUsers')

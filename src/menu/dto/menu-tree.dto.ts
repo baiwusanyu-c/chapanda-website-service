@@ -1,10 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, MaxLength } from 'class-validator';
+import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 
-export class CreateMenuDto {
+export class MenuTreeDto {
   @ApiProperty({ name: 'name', type: String, description: '菜单名称' })
-  @IsNotEmpty({ message: 'menu.name.empty' })
-  @MaxLength(50, { message: 'menu.name.length' })
   name: string;
 
   @ApiProperty({
@@ -12,8 +9,6 @@ export class CreateMenuDto {
     type: String,
     description: '菜单名称(英文)',
   })
-  @IsNotEmpty({ message: 'menu.name.empty' })
-  @MaxLength(50, { message: 'menu.name.length' })
   nameEn: string;
 
   @ApiProperty({
@@ -23,12 +18,9 @@ export class CreateMenuDto {
     required: false,
     nullable: true,
   })
-  @MaxLength(50, { message: 'menu.icon.length' })
   icon?: string;
 
   @ApiProperty({ name: 'path', type: String, description: '菜单路径' })
-  @IsNotEmpty({ message: 'menu.path.empty' })
-  @MaxLength(500, { message: 'menu.path.length' })
   path: string;
 
   @ApiProperty({
