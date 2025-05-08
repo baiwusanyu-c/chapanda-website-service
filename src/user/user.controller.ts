@@ -145,4 +145,29 @@ export class UserController {
   login(@Body() loginUserDto: LoginUserDto) {
     return this.userService.login(loginUserDto);
   }
+
+  @ApiOperation({
+    summary: '用户登出',
+    description: '用户登出接口',
+  })
+  @ApiBody({
+    type: FindRemoveUserDto,
+  })
+  @ApiResponse({
+    status: StatusCode.OK,
+    description: '登出成功',
+    content: genResContent(null),
+  })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @Post('logout')
+  logout(@Body() findRemoveUserDto: FindRemoveUserDto) {
+    return this.userService.logout(findRemoveUserDto);
+  }
 }

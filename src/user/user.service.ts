@@ -12,6 +12,7 @@ import { genResponse, md5, StatusCode } from '../utils';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserResDto } from './dto/login-user-res.dto';
+import {FindRemoveUserDto} from "./dto/find-remove-user.dto";
 
 @Injectable()
 export class UserService {
@@ -248,6 +249,30 @@ export class UserService {
       } else {
         throw new HttpException(
           this.i18nGetter('user.login.failed'),
+          StatusCode.OK,
+        );
+      }
+    } catch (error) {
+      this.logger.error(error, UserService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
+  }
+  async logout(findRemoveUserDto: FindRemoveUserDto) {
+    try {
+      const has = await this.findOne(findRemoveUserDto.id);
+      if (has && has.code === StatusCode.OK) {
+        return genResponse<null>(
+          StatusCode.OK,
+          null,
+          this.i18nGetter('user.logout.success'),
+        );
+      } else {
+        throw new HttpException(
+          this.i18nGetter('user.logout.failed'),
           StatusCode.OK,
         );
       }
