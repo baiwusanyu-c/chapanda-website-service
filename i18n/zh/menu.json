@@ -7,7 +7,7 @@
     "length": "菜单名最多 50 位"
   },
   "create": {
-    "success": "菜单创建成功!"
+    "success": "菜单创建成功"
   },
   "path": {
     "empty": "菜单路径不能为空",

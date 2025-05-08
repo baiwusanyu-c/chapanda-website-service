@@ -19,11 +19,12 @@ import {
 import { UserModule } from './user/user.module';
 import { User } from './user/entities/user.entity';
 import { Menu } from './menu/entities/menu.entity';
-import { Permission } from './user/entities/permission.entity';
+import { Permission } from './permission/entities/permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuModule } from './menu/menu.module';
 import { JwtModule } from '@nestjs/jwt';
 import { RedisModule } from './redis/redis.module';
+import { PermissionModule } from './permission/permission.module';
 
 const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
 
@@ -129,6 +130,7 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
     UserModule,
     MenuModule,
     RedisModule,
+    PermissionModule,
   ],
   controllers: [AppController],
   providers: [

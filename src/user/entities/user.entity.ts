@@ -7,7 +7,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Permission } from './permission.entity';
+import { Permission } from '../../permission/entities/permission.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity({

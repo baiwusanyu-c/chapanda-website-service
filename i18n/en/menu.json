@@ -1,17 +1,17 @@
 {
   "icon": {
-    "length": "Menu icons can have up to 50 bits"
+    "length": "Menu icons cannot exceed to 50 characters"
   },
   "name": {
     "empty": "The menu name cannot be empty",
-    "length": "Menu names can have up to 50 bits"
+    "length": "Menu names cannot exceed to 50 characters"
   },
   "create": {
     "success": "create menu successfully"
   },
   "path": {
     "empty": "The menu path cannot be empty",
-    "length": "Menu paths can have up to 500 bits"
+    "length": "Menu paths cannot exceed to 500 characters"
   },
   "exception": {
     "exist": "The menu already exists"

@@ -1,0 +1,28 @@
+{
+  "type": {
+    "empty": "Permission type cannot be empty",
+    "value": "The value of the permission type can only be 'API' or 'MENU'"
+  },
+  "name": {
+    "empty": "The permission name cannot be empty",
+    "length": "Permission names cannot exceed to 50 characters"
+  },
+  "path": {
+    "empty": "When the type value is 'API', the path field cannot be empty",
+    "length": "Permission paths cannot exceed to 100 characters"
+  },
+  "method": {
+    "empty": "When the type value is 'API', the menuId method cannot be empty",
+    "length": "Permission method cannot exceed to 10 characters"
+  },
+  "menuId": {
+    "empty": "When the type value is 'MENU', the menuId field cannot be empty",
+    "length": "The ID of the permission association menu cannot exceed 100 characters"
+  },
+  "create": {
+    "success": "The permission is created"
+  },
+  "exception": {
+    "exist": "The menu already exists"
+  }
+}

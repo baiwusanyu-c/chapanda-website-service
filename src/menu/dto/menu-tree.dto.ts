@@ -1,4 +1,4 @@
-import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class MenuTreeDto {
   @ApiProperty({ name: 'name', type: String, description: '菜单名称' })

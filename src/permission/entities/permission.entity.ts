@@ -4,8 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   ManyToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
+import { User } from '../../user/entities/user.entity';
 import { Menu } from '../../menu/entities/menu.entity';
 
 @Entity()
@@ -34,14 +36,24 @@ export class Permission {
     nullable: true,
     comment: 'API 路径（仅 type=API 时有效）',
   })
-  path: string;
+  path?: string;
 
   @Column({
     length: 10,
     nullable: true,
     comment: 'HTTP 方法（仅 type=API 时有效）',
   })
-  method: string;
+  method?: string;
+
+  @CreateDateColumn({
+    comment: '创建时间',
+  })
+  createTime: Date;
+
+  @UpdateDateColumn({
+    comment: '更新时间',
+  })
+  updateTime: Date;
   // 与菜单表关联,  关联的 menu_id
   @ManyToOne(() => Menu, (menu) => menu.permissions, { nullable: true })
   menu: Menu;

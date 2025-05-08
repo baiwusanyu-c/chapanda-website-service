@@ -6,8 +6,10 @@ import {
   OneToMany,
   TreeChildren,
   Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { Permission } from '../../user/entities/permission.entity';
+import { Permission } from '../../permission/entities/permission.entity';
 
 @Entity()
 @Tree('closure-table', {
@@ -33,6 +35,16 @@ export class Menu {
 
   @Column({ nullable: true, comment: '父级菜单id' })
   parentId?: string;
+
+  @CreateDateColumn({
+    comment: '创建时间',
+  })
+  createTime: Date;
+
+  @UpdateDateColumn({
+    comment: '更新时间',
+  })
+  updateTime: Date;
 
   // 关联父级菜单
   @TreeParent()
