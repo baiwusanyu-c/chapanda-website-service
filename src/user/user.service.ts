@@ -12,7 +12,8 @@ import { genResponse, md5, StatusCode } from '../utils';
 import { LoginUserDto } from './dto/login-user.dto';
 import { JwtService } from '@nestjs/jwt';
 import { LoginUserResDto } from './dto/login-user-res.dto';
-import {FindRemoveUserDto} from "./dto/find-remove-user.dto";
+import { FindRemoveUserDto } from './dto/find-remove-user.dto';
+import { RedisService } from '../redis/redis.service';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,8 @@ export class UserService {
   i18n: I18nService;
   @Inject(JwtService)
   private jwtService: JwtService;
+  @Inject(RedisService)
+  private redisService: RedisService;
 
   i18nGetter(key: string, operation?: string) {
     return this.i18n.t<string, string>(
@@ -228,17 +231,14 @@ export class UserService {
           );
         }
         // generate token
-        const token: string = this.jwtService.sign(
-          {
-            user: {
-              id: user.id,
-              username: user.username,
-            },
+        const token: string = this.jwtService.sign({
+          user: {
+            id: user.id,
+            username: user.username,
           },
-          {
-            expiresIn: '2h',
-          },
-        );
+        });
+        // token save to redis
+        await this.redisService.setKey(`user:${user.id}`, token, 7200);
         return genResponse<LoginUserResDto>(
           StatusCode.OK,
           {
@@ -265,6 +265,8 @@ export class UserService {
     try {
       const has = await this.findOne(findRemoveUserDto.id);
       if (has && has.code === StatusCode.OK) {
+        const key = `user:${findRemoveUserDto.id}`;
+        await this.redisService.deleteKey(key);
         return genResponse<null>(
           StatusCode.OK,
           null,

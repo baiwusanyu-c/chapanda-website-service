@@ -12,10 +12,9 @@ import {
 import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { FindRemoveUserDto } from './dto/find-remove-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
-import { AuthGuard } from '@nestjs/passport';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoginUserResDto } from './dto/login-user-res.dto';
-import { JwtAuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(ApiResponseDto, FindUserDto, LoginUserResDto)
 @ApiHeader({
@@ -87,7 +86,7 @@ export class UserController {
     },
   })
   @HttpCode(StatusCode.OK)
-  @UseGuards(new JwtAuthGuard())
+  @UseGuards(JwtAuthGuard)
   @Post('getUser')
   findOne(@Body() findRemoveUserDto: FindRemoveUserDto) {
     return this.userService.findOne(findRemoveUserDto.id);
@@ -141,6 +140,7 @@ export class UserController {
     description: '登录成功',
     content: genResContent(LoginUserResDto),
   })
+  @HttpCode(StatusCode.OK)
   @Post('login')
   login(@Body() loginUserDto: LoginUserDto) {
     return this.userService.login(loginUserDto);
@@ -166,6 +166,8 @@ export class UserController {
       type: 'string',
     },
   })
+  @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('logout')
   logout(@Body() findRemoveUserDto: FindRemoveUserDto) {
     return this.userService.logout(findRemoveUserDto);

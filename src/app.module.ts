@@ -23,7 +23,7 @@ import { Permission } from './user/entities/permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuModule } from './menu/menu.module';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthModule } from './auth/auth.module';
+import { RedisModule } from './redis/redis.module';
 
 const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
 
@@ -43,7 +43,6 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
             format.printf(({ context, level, message, time }) => {
               const appStr = colors.greenBright(`[NEST]`);
               const contextStr = colors.yellowBright(`[${context as string}]`);
-
               return `${appStr} ${time as string} ${level} ${contextStr} ${message as string} `;
             }),
           ),
@@ -126,13 +125,10 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
     JwtModule.register({
       global: true,
       secret: 'chapanda',
-      signOptions: {
-        expiresIn: '2h',
-      },
     }),
     UserModule,
     MenuModule,
-    AuthModule,
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [
