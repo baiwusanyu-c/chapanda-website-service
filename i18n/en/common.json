@@ -1,3 +1,8 @@
 {
-  "success": "The operation was successful"
+  "success": "The operation was successful",
+  "auth": {
+    "empty": "The token is empty, please login again",
+    "expired": "The user login status has expired, please log in again",
+    "error": "The token error, please login again"
+  }
 }

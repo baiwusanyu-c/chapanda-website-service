@@ -4,6 +4,7 @@ export const StatusCode = {
   OK: 200,
   UnknownError: 500,
   BadRequest: 400,
+  Unauthorized: 401,
 };
 
 export type StatusCodeType = (typeof StatusCode)[keyof typeof StatusCode];

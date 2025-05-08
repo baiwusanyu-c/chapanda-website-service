@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,8 +12,12 @@ import {
 import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { FindRemoveUserDto } from './dto/find-remove-user.dto';
 import { FindUserDto } from './dto/find-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { LoginUserDto } from './dto/login-user.dto';
+import { LoginUserResDto } from './dto/login-user-res.dto';
+import { JwtAuthGuard } from '../auth/auth.guard';
 
-@ApiExtraModels(ApiResponseDto, FindUserDto)
+@ApiExtraModels(ApiResponseDto, FindUserDto, LoginUserResDto)
 @ApiHeader({
   name: 'x-custom-lang', // 请求头名称
   description: '语言标识 (可选)', // 描述
@@ -74,7 +78,16 @@ export class UserController {
     description: '查询成功',
     content: genResContent(FindUserDto),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
   @HttpCode(StatusCode.OK)
+  @UseGuards(new JwtAuthGuard())
   @Post('getUser')
   findOne(@Body() findRemoveUserDto: FindRemoveUserDto) {
     return this.userService.findOne(findRemoveUserDto.id);
@@ -114,5 +127,22 @@ export class UserController {
   @Post('remove')
   remove(@Body() findRemoveUserDto: FindRemoveUserDto) {
     return this.userService.remove(findRemoveUserDto.id);
+  }
+
+  @ApiOperation({
+    summary: '用户登录',
+    description: '用户登录接口',
+  })
+  @ApiBody({
+    type: LoginUserDto,
+  })
+  @ApiResponse({
+    status: StatusCode.OK,
+    description: '登录成功',
+    content: genResContent(LoginUserResDto),
+  })
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto) {
+    return this.userService.login(loginUserDto);
   }
 }

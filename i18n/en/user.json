@@ -3,6 +3,11 @@
     "empty": "The password cannot be empty",
     "length": "The minimum password is 6 digits"
   },
+  "login": {
+    "empty": "username/email cannot be empty",
+    "success": "Login successful",
+    "failed": "The login failed, and the account or password was incorrect"
+  },
   "username": {
     "empty": "The username cannot be empty",
     "emptyId": "The username id cannot be empty"

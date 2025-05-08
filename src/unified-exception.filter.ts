@@ -3,6 +3,7 @@ import {
   Catch,
   ArgumentsHost,
   HttpException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { StatusCode, genResponse } from './utils';
@@ -21,6 +22,13 @@ export class UnifiedExceptionFilter implements ExceptionFilter {
       const exceptionResponse = exception.getResponse();
       if (typeof exceptionResponse === 'string') {
         message = exceptionResponse;
+      }
+    }
+    if (exception instanceof UnauthorizedException) {
+      statusCode = exception.getStatus();
+      const exceptionResponse = exception.getResponse();
+      if (toString.call(exceptionResponse) === '[object Object]') {
+        message = (exceptionResponse as UnauthorizedException).message;
       }
     }
 

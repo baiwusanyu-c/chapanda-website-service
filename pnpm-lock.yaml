@@ -59,6 +59,9 @@ importers:
       iconv-lite:
         specifier: ^0.6.3
         version: 0.6.3
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
       minio:
         specifier: ^8.0.5
         version: 8.0.5
@@ -2829,7 +2832,7 @@ packages:
     resolution: {integrity: sha512-Bz5mupy2SVbPHURB98VAcw+aHh4vRV5IPNhILUCsOzRmsTmSQ17jIuqopAentWoehktxGd9e/hbIXq980/1QJg==}
 
   lodash.isinteger@4.0.4:
-    resolution: {integrity: sha512-DBwtEWN2caHQ9/imiNeEA5ys1JoRtRfY3d7V9wkqtbycnAmTvRRmbHKDV4a0EYc678/dia0jrte4tjYwVBaZUA==}
+    resolution: {integrity: sha1-YZwK89A/iwTDH1iChAt3sRzWg0M=}
 
   lodash.isnumber@3.0.3:
     resolution: {integrity: sha512-QYqzpfwO3/CWf3XP+Z+tkQsfaLL/EnUlXWVkIk5FUPc4sBdTehEqZONuyRt2P67PXAk+NXmTBcc97zw9t1FQrw==}

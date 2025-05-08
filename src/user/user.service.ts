@@ -9,6 +9,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { User } from './entities/user.entity';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { genResponse, md5, StatusCode } from '../utils';
+import { LoginUserDto } from './dto/login-user.dto';
+import { JwtService } from '@nestjs/jwt';
+import { LoginUserResDto } from './dto/login-user-res.dto';
 
 @Injectable()
 export class UserService {
@@ -18,6 +21,8 @@ export class UserService {
   private logger: ChaPandaLogger;
   @Inject()
   i18n: I18nService;
+  @Inject(JwtService)
+  private jwtService: JwtService;
 
   i18nGetter(key: string, operation?: string) {
     return this.i18n.t<string, string>(
@@ -34,7 +39,10 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const has = await this.findUserByEmail(createUserDto.email);
+    const has = await this.findUserByEmailOrName(
+      createUserDto.username,
+      createUserDto.email,
+    );
     if (has && has.success) {
       throw new HttpException(
         this.i18nGetter('user.exception.exist'),
@@ -75,10 +83,7 @@ export class UserService {
 
   async findAll() {
     try {
-      const query = `
-      START TRANSACTION; 
-      SELECT * FROM user;
-      COMMIT;`;
+      const query = `SELECT * FROM user;`;
       const res = (await this.manager.query<User[]>(query)).map((v) => {
         Reflect.deleteProperty(v, 'password');
         return v;
@@ -106,10 +111,7 @@ export class UserService {
 
   async findOne(id: string, hasPassword = false) {
     try {
-      const query = `
-        START TRANSACTION; 
-        SELECT * FROM user WHERE id = ?;
-        COMMIT;`;
+      const query = `SELECT * FROM user WHERE id = ?;`;
       const res = await this.manager.query<User[]>(query, [id]);
       if (!res.length) {
         throw new HttpException(
@@ -136,13 +138,10 @@ export class UserService {
     }
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmailOrName(name: string, email: string) {
     try {
-      const query = `
-      START TRANSACTION; 
-      SELECT * FROM user WHERE email = ?;
-      COMMIT;`;
-      const res = await this.manager.query<User[]>(query, [email]);
+      const query = `SELECT * FROM user WHERE username = ? OR email = ?;`;
+      const res = await this.manager.query<User[]>(query, [name, email]);
       return {
         success: res.length,
         res,
@@ -203,6 +202,55 @@ export class UserService {
         null,
         this.i18nGetter('user.remove.success'),
       );
+    } catch (error) {
+      this.logger.error(error, UserService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
+  }
+  async login(loginUserDto: LoginUserDto) {
+    try {
+      const has = await this.findUserByEmailOrName(
+        loginUserDto.account,
+        loginUserDto.account,
+      );
+      if (has && has.success) {
+        const user = has.res[0];
+        const hashPassword = md5(loginUserDto.password);
+        if (hashPassword !== user.password) {
+          throw new HttpException(
+            this.i18nGetter('user.login.failed'),
+            StatusCode.OK,
+          );
+        }
+        // generate token
+        const token: string = this.jwtService.sign(
+          {
+            user: {
+              id: user.id,
+              username: user.username,
+            },
+          },
+          {
+            expiresIn: '2h',
+          },
+        );
+        return genResponse<LoginUserResDto>(
+          StatusCode.OK,
+          {
+            token,
+          },
+          this.i18nGetter('user.login.success'),
+        );
+      } else {
+        throw new HttpException(
+          this.i18nGetter('user.login.failed'),
+          StatusCode.OK,
+        );
+      }
     } catch (error) {
       this.logger.error(error, UserService.name);
       return genResponse<null>(

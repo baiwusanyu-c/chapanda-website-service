@@ -119,10 +119,7 @@ export class MenuService {
 
   async findMenuByPath(path: string) {
     try {
-      const query = `
-      START TRANSACTION;
-      SELECT * FROM menu WHERE path = ?;
-      COMMIT;`;
+      const query = `SELECT * FROM menu WHERE path = ?;`;
       const res = await this.manager.query<Menu[]>(query, [path]);
       return genResponse<Menu[]>(StatusCode.OK, res, '');
     } catch (error) {

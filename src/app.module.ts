@@ -22,6 +22,8 @@ import { Menu } from './menu/entities/menu.entity';
 import { Permission } from './user/entities/permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuModule } from './menu/menu.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './auth/auth.module';
 
 const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
 
@@ -121,8 +123,16 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
         multipleStatements: true,
       },
     }),
+    JwtModule.register({
+      global: true,
+      secret: 'chapanda',
+      signOptions: {
+        expiresIn: '2h',
+      },
+    }),
     UserModule,
     MenuModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

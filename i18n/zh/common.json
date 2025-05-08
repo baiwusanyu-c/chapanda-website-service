@@ -1,3 +1,8 @@
 {
-  "success": "操作成功"
+  "success": "操作成功",
+  "auth": {
+    "empty": "token 为空，请重新登录",
+    "expired": "用户登录过期，请重新登录",
+    "error": "用户 token 错误，请重新登录"
+  }
 }

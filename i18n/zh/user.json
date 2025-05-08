@@ -3,6 +3,11 @@
     "empty": "密码不能为空",
     "length": "密码最少 6 位"
   },
+  "login": {
+    "empty": "用户名/邮箱不能为空",
+    "success": "登录成功",
+    "failed": "登录失败，账号或密码不正确"
+  },
   "username": {
     "empty": "用户名不能为空",
     "emptyId": "用户名ID不能为空"
