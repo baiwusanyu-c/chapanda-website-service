@@ -8,6 +8,8 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 import { genResponse, StatusCode } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../user/entities/user.entity';
+import { FindShopDto } from './dto/find-shop.dto';
+import { Shop } from './entities/shop.entity';
 
 @Injectable()
 export class ShopService {
@@ -104,7 +106,51 @@ export class ShopService {
     }
   }
 
-  list() {
-    return `This action returns all shop`;
+  // TODO regionEn is Null
+  async list(findShopDto: FindShopDto) {
+    try {
+      const totalQuery = `
+        SET @region_en = ?;
+        SELECT COUNT(*) AS total
+        FROM shop
+        WHERE (@region_en IS NULL OR regionEn = (CONVERT(@region_en USING utf8mb4) COLLATE utf8mb4_0900_ai_ci))`;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const [_, totalResult] = await this.manager.query<
+        [unknown, Array<{ total: number }>]
+      >(totalQuery, [findShopDto.regionEn]);
+      const total = totalResult[0].total;
+
+      const recordsQuery = `
+      SET @region_en = ?;
+      SELECT *
+      FROM shop
+       WHERE (@region_en IS NULL OR regionEn = (CONVERT(@region_en USING utf8mb4) COLLATE utf8mb4_0900_ai_ci))
+      ORDER BY id 
+      LIMIT ? OFFSET ?;
+      `;
+      const offset = (Number(findShopDto.pageNum) - 1) * findShopDto.pageSize;
+      const pageSize = Number(findShopDto.pageSize);
+      const records = await this.manager.query<[unknown, Shop]>(recordsQuery, [
+        findShopDto.regionEn,
+        pageSize,
+        offset,
+      ]);
+      const res = {
+        total,
+        records: records[1],
+      };
+      return genResponse<any>(
+        StatusCode.OK,
+        res,
+        this.i18nGetter('shop.find.success'),
+      );
+    } catch (error) {
+      this.logger.error(error, ShopService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
   }
 }

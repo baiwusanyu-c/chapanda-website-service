@@ -8,6 +8,6 @@ export class CreateShopsDto {
     type: () => [CreateShopDto],
     description: '门店数据',
   })
-  @IsNotEmpty({ message: 'user.username.empty' })
+  @IsNotEmpty({ message: 'shop.batch.empty' })
   data: CreateShopDto[];
 }

@@ -1,5 +1,27 @@
 {
   "create": {
     "success": "The store data was created"
+  },
+  "name": {
+    "empty": "The store name cannot be empty",
+    "maxLen": "Store names can't exceed 50 characters"
+  },
+  "nameEn": {
+    "empty": "The English name of the store cannot be empty",
+    "maxLen": "The English name of the store cannot exceed 200 characters"
+  },
+  "region": {
+    "empty": "The store area name cannot be empty",
+    "maxLen": "Store area names cannot exceed 50 characters"
+  },
+  "regionEn": {
+    "empty": "The English name of the store area cannot be empty",
+    "maxLen": "The English name of the store area cannot exceed 50 characters"
+  },
+  "batch": {
+    "empty": "batch insertion of store data cannot be empty"
+  },
+  "find": {
+    "success": "The store data query is successful"
   }
 }

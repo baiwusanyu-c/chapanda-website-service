@@ -1,10 +1,19 @@
 import { Controller, Post, Body, HttpCode } from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { CreateShopDto } from './dto/create-shop.dto';
-import { ApiBody, ApiHeader, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { genResContent, StatusCode } from '../utils';
+import {
+  ApiBody,
+  ApiExtraModels,
+  ApiHeader,
+  ApiOperation,
+  ApiResponse,
+} from '@nestjs/swagger';
+import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { CreateShopsDto } from './dto/create-shops.dto';
+import { FindShopDto } from './dto/find-shop.dto';
+import { ResShopListDto } from './dto/res-shop.dto';
 
+@ApiExtraModels(ApiResponseDto, ResShopListDto)
 @ApiHeader({
   name: 'x-custom-lang', // 请求头名称
   description: '语言标识 (可选)', // 描述
@@ -55,8 +64,21 @@ export class ShopController {
     return this.shopService.batchCreate(createShopsDto.data);
   }
 
+  @ApiOperation({
+    summary: '查询门店',
+    description: '查询门店接口',
+  })
+  @ApiBody({
+    type: FindShopDto,
+  })
+  @ApiResponse({
+    status: StatusCode.OK,
+    description: '查询门店成功',
+    content: genResContent(ResShopListDto),
+  })
+  @HttpCode(StatusCode.OK)
   @Post('list')
-  list(@Body() createShopDto: CreateShopDto) {
-    return this.shopService.create(createShopDto);
+  list(@Body() findShopDto: FindShopDto) {
+    return this.shopService.list(findShopDto);
   }
 }

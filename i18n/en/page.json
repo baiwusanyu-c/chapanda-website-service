@@ -1,0 +1,8 @@
+{
+  "pageSize": {
+    "empty": "The size of the display data on each page cannot be empty"
+  },
+  "pageNum": {
+    "empty": "The query page number cannot be empty"
+  }
+}

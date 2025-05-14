@@ -28,9 +28,9 @@
 
 * ✅menu/getTreeMenus - 菜单导航
 
-* shop/insert
-* shop/list
-* 门店列表（分页，模糊搜索）
+* ✅shop/insert
+* ✅sshop/list
+* ✅s门店列表（分页，区域搜索）
 
 * news/list
 * news/insert
