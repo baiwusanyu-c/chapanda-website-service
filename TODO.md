@@ -30,7 +30,7 @@
 
 * shop/insert
 * shop/list
-* 门店列表
+* 门店列表（分页，模糊搜索）
 
 * news/list
 * news/insert
