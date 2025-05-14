@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import {
@@ -8,6 +8,8 @@ import {
   ApiResponse,
 } from '@nestjs/swagger';
 import { genResContent, StatusCode } from '../utils';
+import { SetUserPermissionDto } from './dto/set-user-permission.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiHeaders([
   {
@@ -46,14 +48,28 @@ export class PermissionController {
     content: genResContent(null),
   })
   @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('create')
   create(@Body() createPermissionDto: CreatePermissionDto) {
     return this.permissionService.create(createPermissionDto);
   }
 
-  // TODO:
+  @ApiOperation({
+    summary: '分配权限',
+    description: '根据用户 id 与权限 id 为用户分配权限',
+  })
+  @ApiBody({
+    type: SetUserPermissionDto,
+  })
+  @ApiResponse({
+    status: StatusCode.OK,
+    description: '分配权限成功',
+    content: genResContent(null),
+  })
+  @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('setPermissionToUser')
-  setPermission(@Body() createPermissionDto: CreatePermissionDto) {
-    return this.permissionService.create(createPermissionDto);
+  setPermission(@Body() params: SetUserPermissionDto) {
+    return this.permissionService.setPermission(params);
   }
 }

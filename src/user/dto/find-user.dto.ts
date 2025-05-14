@@ -1,4 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
+import { Permission } from '../../permission/entities/permission.entity';
+import { ApiResponseDto } from '../../utils';
+
 export class FindUserDto {
   @ApiProperty({ name: 'id', type: String, description: '主键id' })
   id: string;
@@ -14,4 +17,12 @@ export class FindUserDto {
 
   @ApiProperty({ name: 'updateTime', type: Date, description: '更新时间' })
   updateTime: Date;
+
+  @ApiProperty({
+    name: 'permissions',
+    type: 'array',
+    items: { $ref: getSchemaPath(Permission) },
+    description: '用户权限, 元素类型为 Permission 实体',
+  })
+  permissions: Permission[] | null;
 }

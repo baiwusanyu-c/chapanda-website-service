@@ -1,15 +1,15 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { CreatePermissionDto } from './dto/create-permission.dto';
-import { genResponse, md5, StatusCode } from '../utils';
+import { genResponse, StatusCode } from '../utils';
 import { v4 as uuidv4 } from 'uuid';
-import { User } from '../user/entities/user.entity';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { WINSTON_LOGGER_TOKEN } from '../logger/logger.module';
 import { ChaPandaLogger } from '../logger/logger.service';
 import { I18nContext, I18nService } from 'nestjs-i18n';
-import { JwtService } from '@nestjs/jwt';
-import { RedisService } from '../redis/redis.service';
+import { Permission } from './entities/permission.entity';
+import { SetUserPermissionDto } from './dto/set-user-permission.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PermissionService {
@@ -19,10 +19,8 @@ export class PermissionService {
   private logger: ChaPandaLogger;
   @Inject()
   i18n: I18nService;
-  @Inject(JwtService)
-  private jwtService: JwtService;
-  @Inject(RedisService)
-  private redisService: RedisService;
+  @Inject(UserService)
+  private userService: UserService;
   i18nGetter(key: string, operation?: string) {
     return this.i18n.t<string, string>(
       // 文案的 key
@@ -47,7 +45,7 @@ export class PermissionService {
           (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
           COMMIT;`;
 
-      await this.manager.query<User>(query, [
+      await this.manager.query<any>(query, [
         uuid,
         createPermissionDto.type,
         createPermissionDto.name,
@@ -70,7 +68,57 @@ export class PermissionService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} permission`;
+  async findOne(id: string) {
+    try {
+      const query = `SELECT * FROM permission WHERE id = ?;`;
+      const permissions = await this.manager.query<Permission[]>(query, [id]);
+      return genResponse<Permission>(
+        StatusCode.OK,
+        permissions[0],
+        this.i18nGetter('permission.find.success'),
+      );
+    } catch (error) {
+      this.logger.error(error, PermissionService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
+  }
+
+  async setPermission(params: SetUserPermissionDto) {
+    const { id, permissionId } = params;
+    const { data: user } = await this.userService.findOne(id);
+    const { data: permissions } = await this.findOne(permissionId);
+    if (user && permissions) {
+      try {
+        const query = `
+          START TRANSACTION; 
+          INSERT INTO user_permission_relation
+          (user_id, permission_id)
+          VALUES
+          (?, ?);
+          COMMIT;`;
+        await this.manager.query<Permission[]>(query, [id, permissionId]);
+        return genResponse<null>(
+          StatusCode.OK,
+          null,
+          this.i18nGetter('permission.assignment.success'),
+        );
+      } catch (error) {
+        this.logger.error(error, PermissionService.name);
+        return genResponse<null>(
+          StatusCode.UnknownError,
+          null,
+          (error as ErrorEvent).message,
+        );
+      }
+    } else {
+      throw new HttpException(
+        this.i18nGetter('permission.assignment.bad'),
+        StatusCode.OK,
+      );
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import {
@@ -11,6 +11,7 @@ import {
 
 import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { MenuTreeDto } from './dto/menu-tree.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(ApiResponseDto, MenuTreeDto)
 @ApiHeader({
@@ -40,7 +41,16 @@ export class MenuController {
     description: '创建菜单成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
   @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('add')
   create(@Body() createMenuDto: CreateMenuDto) {
     return this.menuService.create(createMenuDto);

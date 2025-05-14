@@ -22,6 +22,14 @@
   "create": {
     "success": "权限创建成功"
   },
+  "find": {
+    "success": "查询权限成功"
+  },
+  "assignment": {
+    "failed": "权限分配失败",
+    "bad": "权限分配失败,未找到权限或用户",
+    "success": "权限分配成功"
+  },
   "exception": {
     "exist": "权限名称重复"
   }

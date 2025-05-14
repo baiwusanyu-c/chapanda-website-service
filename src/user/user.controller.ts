@@ -15,8 +15,9 @@ import { FindUserDto } from './dto/find-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { LoginUserResDto } from './dto/login-user-res.dto';
 import { JwtAuthGuard } from '../auth/auth.jwt.guard';
+import { Permission } from '../permission/entities/permission.entity';
 
-@ApiExtraModels(ApiResponseDto, FindUserDto, LoginUserResDto)
+@ApiExtraModels(ApiResponseDto, FindUserDto, LoginUserResDto, Permission)
 @ApiHeader({
   name: 'x-custom-lang', // 请求头名称
   description: '语言标识 (可选)', // 描述
@@ -59,7 +60,16 @@ export class UserController {
     description: '查询成功',
     content: genResContent(FindUserDto, 'array'),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
   @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('getAllUsers')
   findAll() {
     return this.userService.findAll();
@@ -104,7 +114,16 @@ export class UserController {
     description: '更新成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
   @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('update')
   update(@Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(updateUserDto);
@@ -122,7 +141,16 @@ export class UserController {
     description: '删除成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
   @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
   @Post('remove')
   remove(@Body() findRemoveUserDto: FindRemoveUserDto) {
     return this.userService.remove(findRemoveUserDto.id);

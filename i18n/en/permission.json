@@ -22,6 +22,14 @@
   "create": {
     "success": "The permission is created"
   },
+  "find": {
+    "success": "The query permission is successful"
+  },
+  "assignment": {
+    "failed": "Permission assignment failed",
+    "bad": "Permission assignment failed with no permissions or user found",
+    "success": "The permission assignment is successful"
+  },
   "exception": {
     "exist": "The menu already exists"
   }

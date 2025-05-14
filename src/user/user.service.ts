@@ -115,7 +115,29 @@ export class UserService {
 
   async findOne(id: string, hasPassword = false) {
     try {
-      const query = `SELECT * FROM user WHERE id = ?;`;
+      const query = `
+        SELECT u.*,
+               COALESCE(
+                 JSON_ARRAYAGG(
+                   JSON_OBJECT(
+                     'id', p.id, 
+                     'name', p.name,
+                     'type', p.type,
+                     'path', p.path,
+                     'method', p.method,
+                     'menuId', p.menuId,
+                     'createTime', p.createTime,
+                     'updateTime', p.updateTime
+                   )
+                 ),
+                 JSON_ARRAY()
+               ) AS permissions
+        FROM \`user\` u
+               LEFT JOIN user_permission_relation upr ON u.id = upr.user_id
+               LEFT JOIN permission p ON upr.permission_id = p.id
+        WHERE u.id = ?
+        GROUP BY u.id;
+      `;
       const res = await this.manager.query<User[]>(query, [id]);
       if (!res.length) {
         throw new HttpException(
