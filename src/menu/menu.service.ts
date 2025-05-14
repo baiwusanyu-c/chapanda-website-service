@@ -65,7 +65,7 @@ export class MenuService {
           INSERT INTO menu (id, nameEn, name, icon, path, parentId, \`order\`, level)
           VALUES (
            @new_id,
-           @menu_name_en
+           @menu_name_en,
            @menu_name,
            @menu_icon,
            @menu_path,
@@ -136,11 +136,21 @@ export class MenuService {
   async findTreeMenus() {
     try {
       const res = await this.manager.getTreeRepository(Menu).findTrees();
+      const sortMenuTree = (nodes: Menu[]): Menu[] => {
+        return nodes
+          .sort((a, b) => a.order - b.order) // 按 order 升序
+          .map((node) => ({
+            ...node,
+            children: node.children ? sortMenuTree(node.children) : [],
+          }));
+      };
 
+      // 3. 应用排序
+      const sortedRes = sortMenuTree(res);
       return genResponse<Menu[]>(
         StatusCode.OK,
-        res,
-        this.i18nGetter('user.remove.success'),
+        sortedRes,
+        this.i18nGetter('menu.find.success'),
       );
     } catch (error) {
       this.logger.error(error, MenuService.name);

@@ -20,13 +20,13 @@
 ### 用户邮箱验证码登录
 ### 短链服务分享
 
-* user/update - 更新
-* user/register - 注册
-* user/login - 登录
-* user/logout - 登出
+* ✅ user/update - 更新
+* ✅ user/create - 注册
+* ✅ user/login - 登录
+* ✅ user/logout - 登出
 * 部门、成员、
 
-* menu/list - 菜单导航
+* ✅menu/getTreeMenus - 菜单导航
 
 * shop/insert
 * shop/list

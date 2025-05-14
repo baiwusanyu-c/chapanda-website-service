@@ -9,6 +9,9 @@
   "create": {
     "success": "create menu successfully"
   },
+  "find": {
+    "success": "The menu query was successful"
+  },
   "path": {
     "empty": "The menu path cannot be empty",
     "length": "Menu paths cannot exceed to 500 characters"

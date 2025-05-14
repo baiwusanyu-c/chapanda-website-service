@@ -1,6 +1,5 @@
 import { ApiProperty, getSchemaPath } from '@nestjs/swagger';
 import { Permission } from '../../permission/entities/permission.entity';
-import { ApiResponseDto } from '../../utils';
 
 export class FindUserDto {
   @ApiProperty({ name: 'id', type: String, description: '主键id' })

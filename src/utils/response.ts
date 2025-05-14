@@ -49,16 +49,26 @@ export function genResContent<T>(dto: T, type?: string) {
   if (type === 'tree') {
     schema = {
       allOf: [
-        { $ref: getSchemaPath(dto as any) },
         {
-          properties: {
-            children: {
-              type: 'array',
-              nullable: true,
-              items: {
+          type: 'array',
+          nullable: true,
+          items: {
+            allOf: [
+              {
                 $ref: getSchemaPath(dto as any),
               },
-            },
+              {
+                properties: {
+                  children: {
+                    type: 'array',
+                    nullable: true,
+                    items: {
+                      $ref: getSchemaPath(dto as any),
+                    },
+                  },
+                },
+              },
+            ],
           },
         },
       ],

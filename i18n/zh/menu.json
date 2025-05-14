@@ -9,6 +9,9 @@
   "create": {
     "success": "菜单创建成功"
   },
+  "find": {
+    "success": "菜单查询成功"
+  },
   "path": {
     "empty": "菜单路径不能为空",
     "length": "菜单路径最多 500 位"
