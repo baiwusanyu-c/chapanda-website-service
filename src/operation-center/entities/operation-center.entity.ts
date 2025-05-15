@@ -6,6 +6,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+// TODO: 英文
 @Entity()
 export class OperationCenter {
   @PrimaryGeneratedColumn('uuid', {

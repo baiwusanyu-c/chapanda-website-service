@@ -1,0 +1,12 @@
+{
+  "create": {
+    "success": "The temporary upload address is generated"
+  },
+  "fileName": {
+    "empty": "The file name cannot be empty",
+    "maxLen": "The file name cannot exceed 50 characters"
+  },
+  "category": {
+    "empty": "The file category cannot be empty"
+  }
+}

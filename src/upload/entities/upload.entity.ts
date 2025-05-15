@@ -6,36 +6,38 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-// TODO: 英文
-@Entity()
-export class News {
+@Entity({
+  name: 'pdf',
+})
+export class Upload {
   @PrimaryGeneratedColumn('uuid', {
     comment: '主键id',
   })
   id: string;
 
   @Column({
+    length: 500,
+    comment: '预览地址',
+  })
+  previewUrl: string;
+
+  @Column({
+    length: 500,
+    comment: '下载地址',
+  })
+  downLoadUrl: string;
+
+  @Column({
     length: 50,
-    comment: '新闻标题',
+    comment: '文件名称',
   })
-  title: string;
+  fileName: string;
 
   @Column({
-    length: 500,
-    comment: '新闻详情',
+    length: 50,
+    comment: '文件分类',
   })
-  detail: string;
-
-  @Column({
-    length: 500,
-    comment: '新闻链接',
-  })
-  link: string;
-
-  @CreateDateColumn({
-    comment: '新闻日期',
-  })
-  date: Date;
+  category: string;
 
   @CreateDateColumn({
     comment: '创建时间',

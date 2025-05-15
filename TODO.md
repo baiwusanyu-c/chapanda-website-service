@@ -11,7 +11,6 @@
 ### 基础的文件上传(admin 账号支持，新增一个上传页面)
 ### ✅ 日志(运行错误、访问、日志删除)
 ### ✅报错标准化、接口响应标准化
-### 消息推送
 ### ✅ apifox 集成
 ### ✅ 环境变量化
 
@@ -19,6 +18,7 @@
 ### 用户二维码登录
 ### 用户邮箱验证码登录
 ### 短链服务分享
+### 消息推送
 
 * ✅ user/update - 更新
 * ✅ user/create - 注册
@@ -40,15 +40,15 @@
 * ✅operation-center/insert
 * 营运中心
 
-* franchise/process-list
-* franchise/process-insert
+* ✅franchise/process-list
+* ✅franchise/process-insert
 * 招商流程列表
 
 
-* pdf-docs/list
-* pdf-docs/upload
+*  upload/pdf-list
+* 通知公函（分页，模糊搜索）
+
+*  upload/find-pdf
+* ✅upload/pdf
 * 招股文件、营业报告、管理方案等 pdf
 
-* notices/list
-* notices/insert
-* 通知公函（分页，模糊搜索）

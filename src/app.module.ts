@@ -33,9 +33,12 @@ import { OperationCenterModule } from './operation-center/operation-center.modul
 import { OperationCenter } from './operation-center/entities/operation-center.entity';
 import { FranchiseModule } from './franchise/franchise.module';
 import { Franchise } from './franchise/entities/franchise.entity';
+import { UploadModule } from './upload/upload.module';
+import { MinioModule } from './minio/minio.module';
+import { Upload } from './upload/entities/upload.entity';
 
+// TODO: 配置文件化
 const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
-
 @Module({
   imports: [
     // 配置环境变量
@@ -127,6 +130,7 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
         News,
         OperationCenter,
         Franchise,
+        Upload,
       ], // entities 是指定有哪些和数据库的表对应的 Entity。['**/entity/*.ts']
       migrations: [], // 是修改表结构之类的 sql,
       subscribers: [], // 是一些 Entity 生命周期的订阅者，比如 insert、update、remove 前后，可以加入一些逻辑：
@@ -143,14 +147,27 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
       global: true,
       secret: 'chapanda',
     }),
+    MinioModule.register({
+      endPoint: 'localhost',
+      port: 9000,
+      useSSL: false,
+      accessKey: 'tc50B1jylj6CrzWdbslT',
+      secretKey: 'q4KLNrFAQT1KCWWoEVjcK47HNuQ3C08F80Ip4dA7',
+    }),
+    RedisModule.register({
+      socket: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
     UserModule,
     MenuModule,
-    RedisModule,
     PermissionModule,
     ShopModule,
     NewsModule,
     OperationCenterModule,
     FranchiseModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [
