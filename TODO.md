@@ -32,9 +32,18 @@
 * ✅shop/list
 * ✅s门店列表（分页，区域搜索）
 
-* news/list
+* ✅ news/list
 * ✅ news/insert
 * 新闻列表
+
+* ✅operation-center/list
+* ✅operation-center/insert
+* 营运中心
+
+* franchise/process-list
+* franchise/process-insert
+* 招商流程列表
+
 
 * pdf-docs/list
 * pdf-docs/upload
@@ -43,11 +52,3 @@
 * notices/list
 * notices/insert
 * 通知公函（分页，模糊搜索）
-
-* operation-center/list
-* operation-center/insert
-* 营运中心（分页，模糊搜索）
-
-* franchise/process-list
-* franchise/process-insert
-* 招商流程列表

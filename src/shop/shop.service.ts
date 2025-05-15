@@ -127,8 +127,8 @@ export class ShopService {
       ORDER BY id 
       LIMIT ? OFFSET ?;
       `;
-      const offset = (Number(findShopDto.pageNum) - 1) * findShopDto.pageSize;
       const pageSize = Number(findShopDto.pageSize);
+      const offset = (Number(findShopDto.pageNum) - 1) * pageSize;
       const records = await this.manager.query<[unknown, Shop]>(recordsQuery, [
         findShopDto.regionEn,
         pageSize,

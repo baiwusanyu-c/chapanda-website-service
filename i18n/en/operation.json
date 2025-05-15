@@ -1,0 +1,20 @@
+{
+  "create": {
+    "success": "The creation of the operation center data is successful"
+  },
+  "name": {
+    "empty": "The name of the operation center cannot be empty",
+    "maxLen": "The operation center name cannot exceed 50 characters"
+  },
+  "address": {
+    "empty":"The address of the operation center cannot be empty",
+    "maxLen": "The operation center address cannot exceed 200 characters"
+  },
+  "type": {
+    "empty":"The operation Center category cannot be empty",
+    "maxLen": "The operation center category cannot exceed 50 characters"
+  },
+  "find": {
+    "success": "The data query of the operation center is successful"
+  }
+}
