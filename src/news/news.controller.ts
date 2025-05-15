@@ -4,6 +4,7 @@ import { CreateNewsDto } from './dto/create-news.dto';
 import {
   ApiBody,
   ApiExtraModels,
+  ApiHeader,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
@@ -12,6 +13,16 @@ import { FindNewsDto } from './dto/find-news.dto';
 import { ResNewsListDto } from './dto/res-news.dto';
 
 @ApiExtraModels(ApiResponseDto, ResNewsListDto, FindNewsDto)
+@ApiHeader({
+  name: 'x-custom-lang', // 请求头名称
+  description: '语言标识 (可选)', // 描述
+  required: false, // 标记为可选
+  example: 'zh', // 示例值
+  schema: {
+    type: 'string',
+    enum: ['zh', 'en'], // 可选枚举值
+  },
+})
 @Controller('news')
 export class NewsController {
   constructor(private readonly newsService: NewsService) {}

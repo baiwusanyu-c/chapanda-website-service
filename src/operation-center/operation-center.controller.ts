@@ -4,6 +4,7 @@ import { CreateOperationCenterDto } from './dto/create-operation-center.dto';
 import {
   ApiBody,
   ApiExtraModels,
+  ApiHeader,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
@@ -16,6 +17,16 @@ import { ResOperationCenterListDto } from './dto/res-operation-center.dto';
   ResOperationCenterListDto,
   FindOperationCenterDto,
 )
+@ApiHeader({
+  name: 'x-custom-lang', // 请求头名称
+  description: '语言标识 (可选)', // 描述
+  required: false, // 标记为可选
+  example: 'zh', // 示例值
+  schema: {
+    type: 'string',
+    enum: ['zh', 'en'], // 可选枚举值
+  },
+})
 @Controller('operation-center')
 export class OperationCenterController {
   constructor(

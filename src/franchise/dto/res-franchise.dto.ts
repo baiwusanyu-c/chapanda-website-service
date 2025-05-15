@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-export class ResNewsDto {
+export class ResFranchiseDto {
   @ApiProperty({
     description: '主键id',
     type: 'string',
@@ -7,28 +7,34 @@ export class ResNewsDto {
   id: string;
 
   @ApiProperty({
-    description: '新闻标题',
+    type: 'number',
+    description: '顺序',
+  })
+  order: number;
+
+  @ApiProperty({
+    description: '加盟步骤标题',
     type: 'string',
   })
   title: string;
 
   @ApiProperty({
-    description: '新闻详情',
+    description: '加盟步骤英文标题',
+    type: 'string',
+  })
+  titleEn: string;
+
+  @ApiProperty({
+    description: '加盟步骤详情',
     type: 'string',
   })
   detail: string;
 
   @ApiProperty({
-    description: '新闻链接',
+    description: '加盟步骤英文详情',
     type: 'string',
   })
-  link: string;
-
-  @ApiProperty({
-    description: '新闻日期',
-    type: () => Date,
-  })
-  date: Date;
+  date: string;
 
   @ApiProperty({
     description: '创建时间',
@@ -43,7 +49,7 @@ export class ResNewsDto {
   updateTime: Date;
 }
 
-export class ResNewsListDto {
+export class ResFranchiseListDto {
   @ApiProperty({
     description: '总条数',
     type: 'string',
@@ -51,7 +57,7 @@ export class ResNewsListDto {
   total: number;
   @ApiProperty({
     description: '列表',
-    type: () => [ResNewsDto],
+    type: () => [ResFranchiseDto],
   })
-  records: ResNewsDto[];
+  records: ResFranchiseDto[];
 }

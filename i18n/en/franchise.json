@@ -1,0 +1,27 @@
+{
+  "create": {
+    "success": "The creation of the process step data was successful"
+  },
+  "title": {
+    "empty": "The process step title cannot be empty",
+    "maxLen": "The process step titles cannot exceed 50 characters"
+  },
+  "titleEn": {
+    "empty":"The step title cannot be empty in English",
+    "maxLen": "The process step titles cannot exceed 50 characters in English"
+  },
+  "detail": {
+    "empty": "The process step details cannot be empty",
+    "maxLen": "The process step details cannot exceed 500 characters"
+  },
+  "detailEn": {
+    "empty": "The process step details cannot be empty in English",
+    "maxLen": "The process step details cannot be empty cannot exceed 500 characters in English"
+  },
+  "order": {
+    "empty": "The process step order cannot be empty"
+  },
+  "find": {
+    "success": "The data of the franchise process step is queried successfully"
+  }
+}
