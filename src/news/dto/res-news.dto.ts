@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateShopDto } from './create-shop.dto';
 export class ResShopDto {
   @ApiProperty({
     description: '主键id',
@@ -8,28 +7,28 @@ export class ResShopDto {
   id: string;
 
   @ApiProperty({
-    description: '门店名称',
+    description: '新闻标题',
     type: 'string',
   })
-  name: string;
+  title: string;
 
   @ApiProperty({
-    description: '门店英文名称',
+    description: '新闻详情',
     type: 'string',
   })
-  nameEn: string;
+  detail: string;
 
   @ApiProperty({
-    description: '区域名称',
+    description: '新闻链接',
     type: 'string',
   })
-  region: string;
+  link: string;
 
   @ApiProperty({
-    description: '区域英文名称',
-    type: 'string',
+    description: '新闻日期',
+    type: () => Date,
   })
-  regionEn: string;
+  date: Date;
 
   @ApiProperty({
     description: '创建时间',
@@ -44,7 +43,7 @@ export class ResShopDto {
   updateTime: Date;
 }
 
-export class ResShopListDto {
+export class ResNewsListDto {
   @ApiProperty({
     description: '总条数',
     type: 'string',
@@ -52,7 +51,7 @@ export class ResShopListDto {
   total: number;
   @ApiProperty({
     description: '列表',
-    type: () => [CreateShopDto],
+    type: () => [ResShopDto],
   })
   records: ResShopDto[];
 }

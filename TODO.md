@@ -29,11 +29,11 @@
 * ✅menu/getTreeMenus - 菜单导航
 
 * ✅shop/insert
-* ✅sshop/list
+* ✅shop/list
 * ✅s门店列表（分页，区域搜索）
 
 * news/list
-* news/insert
+* ✅ news/insert
 * 新闻列表
 
 * pdf-docs/list
@@ -50,4 +50,4 @@
 
 * franchise/process-list
 * franchise/process-insert
-* 营运中心（分页，模糊搜索）
+* 招商流程列表

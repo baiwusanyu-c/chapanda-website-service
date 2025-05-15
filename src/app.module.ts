@@ -27,6 +27,8 @@ import { RedisModule } from './redis/redis.module';
 import { PermissionModule } from './permission/permission.module';
 import { ShopModule } from './shop/shop.module';
 import { Shop } from './shop/entities/shop.entity';
+import { NewsModule } from './news/news.module';
+import { News } from './news/entities/news.entity';
 
 const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
 
@@ -113,7 +115,7 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
       database: 'chapanda-website-database',
       synchronize: true, // 同步建表，没Entity 对应表的时候插入数据会自动创建表, 生产环境禁止打开
       logging: true, // 是打印生成的 sql 语句。
-      entities: [User, Permission, Menu, Shop], // entities 是指定有哪些和数据库的表对应的 Entity。['**/entity/*.ts']
+      entities: [User, Permission, Menu, Shop, News], // entities 是指定有哪些和数据库的表对应的 Entity。['**/entity/*.ts']
       migrations: [], // 是修改表结构之类的 sql,
       subscribers: [], // 是一些 Entity 生命周期的订阅者，比如 insert、update、remove 前后，可以加入一些逻辑：
       // beforInsert, updateInsert ...
@@ -134,6 +136,7 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
     RedisModule,
     PermissionModule,
     ShopModule,
+    NewsModule,
   ],
   controllers: [AppController],
   providers: [

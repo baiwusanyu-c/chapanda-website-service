@@ -106,7 +106,6 @@ export class ShopService {
     }
   }
 
-  // TODO regionEn is Null
   async list(findShopDto: FindShopDto) {
     try {
       const totalQuery = `

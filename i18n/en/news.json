@@ -1,0 +1,23 @@
+{
+  "create": {
+    "success": "The creation of news data was successful"
+  },
+  "link": {
+    "empty": "The news link cannot be empty",
+    "maxLen": "News links cannot exceed 500 characters"
+  },
+  "detail": {
+    "empty":"News details cannot be empty",
+    "maxLen": "News details cannot exceed 500 characters"
+  },
+  "date": {
+    "empty":"The news date cannot be empty"
+  },
+  "title": {
+    "empty": "The headline cannot be empty",
+    "maxLen": "News headlines can't exceed 50 characters"
+  },
+  "find": {
+    "success": "The news data query succeeded"
+  }
+}
