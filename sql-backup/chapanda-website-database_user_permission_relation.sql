@@ -1,0 +1,55 @@
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
+--
+-- Host: localhost    Database: chapanda-website-database
+-- ------------------------------------------------------
+-- Server version	9.2.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `user_permission_relation`
+--
+
+DROP TABLE IF EXISTS `user_permission_relation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_permission_relation` (
+  `user_id` varchar(36) NOT NULL,
+  `permission_id` varchar(36) NOT NULL,
+  PRIMARY KEY (`user_id`,`permission_id`),
+  KEY `IDX_341d866ebb5e5b386a957c9360` (`user_id`),
+  KEY `IDX_8b5575992b4197b727200e4a35` (`permission_id`),
+  CONSTRAINT `FK_341d866ebb5e5b386a957c9360e` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_8b5575992b4197b727200e4a351` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_permission_relation`
+--
+
+LOCK TABLES `user_permission_relation` WRITE;
+/*!40000 ALTER TABLE `user_permission_relation` DISABLE KEYS */;
+INSERT INTO `user_permission_relation` VALUES ('91285227-d2ee-42a0-8863-d8994c59d3d2','02c1786d-0947-429f-a7ac-e17de1f3b033'),('91285227-d2ee-42a0-8863-d8994c59d3d2','06e0bd90-e256-4262-b65f-133670feeb57'),('91285227-d2ee-42a0-8863-d8994c59d3d2','0ba6e62b-2d43-425b-8fc3-43cc13f59ad4'),('91285227-d2ee-42a0-8863-d8994c59d3d2','148923da-846d-4f74-bd0a-5c66e6ef0aee'),('91285227-d2ee-42a0-8863-d8994c59d3d2','1dd410da-effc-4c41-9bf8-98081c840dad'),('91285227-d2ee-42a0-8863-d8994c59d3d2','26508f98-5e08-468a-b6bb-04551805a033'),('91285227-d2ee-42a0-8863-d8994c59d3d2','29e0e974-f4df-4e91-8961-6af97bd6d8bc'),('91285227-d2ee-42a0-8863-d8994c59d3d2','3cc95d8a-d7e9-4bf7-8dc0-16a61317f4dd'),('91285227-d2ee-42a0-8863-d8994c59d3d2','44aa9417-e9c0-403d-a40d-6536e94dc863'),('91285227-d2ee-42a0-8863-d8994c59d3d2','63f1cf4e-8fd3-42a5-92b4-1f72f652b7ce'),('91285227-d2ee-42a0-8863-d8994c59d3d2','8393f7f5-613f-4dc4-889b-76fef5e79f90'),('91285227-d2ee-42a0-8863-d8994c59d3d2','944beb18-4165-41ec-a73f-e85059e2787c'),('91285227-d2ee-42a0-8863-d8994c59d3d2','9a080969-0165-4ad2-a8df-accf86cdfb12'),('91285227-d2ee-42a0-8863-d8994c59d3d2','9cd02f20-0d44-428c-b6ef-b9d777af644d'),('91285227-d2ee-42a0-8863-d8994c59d3d2','aa727e6d-2356-4794-abc0-b0a05bc43bf8'),('91285227-d2ee-42a0-8863-d8994c59d3d2','b000f11c-930d-4247-9a25-5cb8423bca33'),('91285227-d2ee-42a0-8863-d8994c59d3d2','b2917a7d-5c06-4a2b-98cc-5c13a4f9ff3b'),('91285227-d2ee-42a0-8863-d8994c59d3d2','b362df28-194d-4793-9fd0-155c4879de6d'),('91285227-d2ee-42a0-8863-d8994c59d3d2','c5b02350-b715-4e1c-aa82-a19754bbcf21'),('91285227-d2ee-42a0-8863-d8994c59d3d2','cec6938c-6b85-4bf4-a217-5d6602283a58'),('91285227-d2ee-42a0-8863-d8994c59d3d2','fdada78c-a679-444a-b89d-3f74327da2a5');
+/*!40000 ALTER TABLE `user_permission_relation` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-05-16 16:51:30
