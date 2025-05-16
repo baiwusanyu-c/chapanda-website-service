@@ -7,12 +7,16 @@ export class CreateUploadDto {
   @MaxLength(50, { message: 'upload.fileName.maxLen' })
   fileName: string;
 
+  @ApiProperty({ name: 'description', type: String, description: '文件描述' })
+  description: string;
+
   @ApiProperty({
     name: 'category',
     type: String,
     description: '文件分类',
     enum: ['1', '2', '3', '4', '5', '6'],
-    example: '1-公共与通告 | 2-月报表 ｜ 3-通函 ｜ 4-委任代表表格 ｜ 5-业绩报告 ｜ 6-其他 ',
+    example:
+      '1-公共与通告 | 2-月报表 ｜ 3-通函 ｜ 4-委任代表表格 ｜ 5-业绩报告 ｜ 6-其他 ',
   })
   @IsNotEmpty({ message: 'upload.category.empty' })
   category: string;

@@ -35,6 +35,12 @@ export class Upload {
 
   @Column({
     length: 50,
+    comment: '文件描述',
+  })
+  description: string;
+
+  @Column({
+    length: 50,
     comment: '文件分类',
   })
   category: string;
