@@ -36,15 +36,14 @@ import { Franchise } from './franchise/entities/franchise.entity';
 import { UploadModule } from './upload/upload.module';
 import { MinioModule } from './minio/minio.module';
 import { Upload } from './upload/entities/upload.entity';
+import configuration, { ENV_CONFIG } from '../env/config.env.development';
 
-// TODO: 配置文件化
-const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
 @Module({
   imports: [
     // 配置环境变量
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: [ENV_PATH],
+      load: [configuration],
     }),
     // 配置 winston 访问日志
     ChapandaLoggerModule.forRoot({
@@ -61,66 +60,66 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
         }),
         new transports.DailyRotateFile({
           format: format.combine(format.timestamp(), format.json()),
-          filename: 'request.%DATE%.log',
+          filename: ENV_CONFIG.LOG_CONFIG.request.filename,
           datePattern: 'YYYY-MM-DD-HH-mm',
-          dirname: 'log',
-          maxSize: '1k',
-          maxFiles: '30d', // 30d后自动删除日志
-          auditFile: 'log/.audit.json',
+          dirname: ENV_CONFIG.LOG_CONFIG.request.dirname,
+          maxSize: ENV_CONFIG.LOG_CONFIG.request.max_size,
+          maxFiles: ENV_CONFIG.LOG_CONFIG.request.max_files,
+          auditFile: ENV_CONFIG.LOG_CONFIG.request.audit_file,
         }),
       ],
       exceptionHandlers: [
         new transports.DailyRotateFile({
           format: format.combine(format.timestamp(), format.json()),
-          filename: 'error.%DATE%.log',
+          filename: ENV_CONFIG.LOG_CONFIG.exception.filename,
           datePattern: 'YYYY-MM-DD-HH-mm',
-          dirname: 'log',
-          maxSize: '1k',
-          maxFiles: '30d', // 30d后自动删除日志
-          auditFile: 'log/.audit.error.json',
+          dirname: ENV_CONFIG.LOG_CONFIG.exception.dirname,
+          maxSize: ENV_CONFIG.LOG_CONFIG.exception.max_size,
+          maxFiles: ENV_CONFIG.LOG_CONFIG.exception.max_files,
+          auditFile: ENV_CONFIG.LOG_CONFIG.exception.audit_file,
         }),
       ],
       rejectionHandlers: [
         new transports.DailyRotateFile({
           format: format.combine(format.timestamp(), format.json()),
-          filename: 'error.rejection.%DATE%.log',
+          filename: ENV_CONFIG.LOG_CONFIG.rejection.filename,
           datePattern: 'YYYY-MM-DD-HH-mm',
-          dirname: 'log',
-          maxSize: '1k',
-          maxFiles: '30d', // 30d后自动删除日志
-          auditFile: 'log/.audit.error.rejection.json',
+          dirname: ENV_CONFIG.LOG_CONFIG.rejection.dirname,
+          maxSize: ENV_CONFIG.LOG_CONFIG.rejection.max_size,
+          maxFiles: ENV_CONFIG.LOG_CONFIG.rejection.max_files,
+          auditFile: ENV_CONFIG.LOG_CONFIG.rejection.audit_file,
         }),
       ],
     }),
     // i18n 配置
     I18nModule.forRoot({
       // 兜底语言
-      fallbackLanguage: 'zh',
+      fallbackLanguage: ENV_CONFIG.I18N_CONFIG.i18n_fallback,
       // 加载语言配置
       loaderOptions: {
-        path: path.join(process.cwd(), '/i18n/'),
+        path: path.join(process.cwd(), ENV_CONFIG.I18N_CONFIG.i18n_path),
         watch: true,
       },
       // 配置识别方案
       resolvers: [
         // 识别url参数上的语言， 3000/?l=zh
-        new QueryResolver(['lang', 'l']),
+        new QueryResolver(ENV_CONFIG.I18N_CONFIG.i18n_query_resolver),
         // 识别请求头的 x-custom-lang 字段
-        new HeaderResolver(['x-custom-lang']),
+        new HeaderResolver(ENV_CONFIG.I18N_CONFIG.i18n_header_resolver),
         // 识别 cookie 的 lang 字段
-        new CookieResolver(['lang']),
+        new CookieResolver(ENV_CONFIG.I18N_CONFIG.i18n_cookie_resolver),
         AcceptLanguageResolver,
       ],
     }),
     // 数据库连接配置
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: '127.0.0.1',
-      port: 3306,
-      username: 'root',
-      password: '123456',
-      database: 'chapanda-website-database',
-      synchronize: true, // 同步建表，没Entity 对应表的时候插入数据会自动创建表, 生产环境禁止打开
+      host: ENV_CONFIG.MYSQL_CONFIG.mysql_server_host,
+      port: ENV_CONFIG.MYSQL_CONFIG.mysql_server_port,
+      username: ENV_CONFIG.MYSQL_CONFIG.mysql_server_username,
+      password: ENV_CONFIG.MYSQL_CONFIG.mysql_server_password,
+      database: ENV_CONFIG.MYSQL_CONFIG.mysql_server_database,
+      synchronize: ENV_CONFIG.MYSQL_CONFIG.mysql_server_synchronize,
+      type: 'mysql', // 同步建表，没Entity 对应表的时候插入数据会自动创建表, 生产环境禁止打开
       logging: true, // 是打印生成的 sql 语句。
       entities: [
         User,
@@ -145,19 +144,19 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
     }),
     JwtModule.register({
       global: true,
-      secret: 'chapanda',
+      secret: ENV_CONFIG.JWT_CONFIG.jwt_secret,
     }),
     MinioModule.register({
-      endPoint: 'localhost',
-      port: 9000,
-      useSSL: false,
-      accessKey: 'pTevMzMunZvIg8ZTH9mX',
-      secretKey: 'J9NMsvSAiVz4pH2IqKLrCdC2LZEzNDG7dyDiRYpo',
+      endPoint: ENV_CONFIG.MINIO_CONFIG.minio_server_host,
+      port: ENV_CONFIG.MINIO_CONFIG.minio_server_port,
+      useSSL: ENV_CONFIG.MINIO_CONFIG.minio_server_ssl,
+      accessKey: ENV_CONFIG.MINIO_CONFIG.minio_server_access,
+      secretKey: ENV_CONFIG.MINIO_CONFIG.minio_server_secret,
     }),
     RedisModule.register({
       socket: {
-        host: 'localhost',
-        port: 6379,
+        host: ENV_CONFIG.REDIS_CONFIG.redis_server_host,
+        port: ENV_CONFIG.REDIS_CONFIG.redis_server_port,
       },
     }),
     UserModule,

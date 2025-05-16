@@ -8,7 +8,7 @@
   "scripts": {
     "init": "pnpm install",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"env/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "cross-env APP_ENV=development nest start",
     "start:dev": "cross-env APP_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",

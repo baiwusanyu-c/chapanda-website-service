@@ -9,7 +9,7 @@ import { UnifiedExceptionFilter } from './unified-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('app_port') || 3000;
+  const port = configService.get<number>('APP_CONFIG.app_port') || 3000;
 
   // 集成 swagger，配置 builder
   const config = new DocumentBuilder()

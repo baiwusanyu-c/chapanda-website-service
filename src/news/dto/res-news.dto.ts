@@ -21,7 +21,6 @@ export class ResNewsDto {
   @ApiProperty({ name: 'titleEn', type: String, description: '新闻英文标题' })
   titleEn: string;
 
-
   @ApiProperty({ name: 'detailEn', type: String, description: '新闻详情' })
   detailEn: string;
 
