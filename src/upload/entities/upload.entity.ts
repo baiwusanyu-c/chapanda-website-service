@@ -40,6 +40,18 @@ export class Upload {
   description: string;
 
   @Column({
+    length: 200,
+    comment: '文件英文名称',
+  })
+  fileNameEn: string;
+
+  @Column({
+    length: 200,
+    comment: '文件英文描述',
+  })
+  descriptionEn: string;
+
+  @Column({
     length: 50,
     comment: '文件分类',
   })

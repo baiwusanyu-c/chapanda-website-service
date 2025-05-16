@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Optional } from '@nestjs/common';
 
 export class ResFileDto {
   @ApiProperty({ name: 'fileName', type: String, description: '文件名称' })
@@ -24,6 +25,23 @@ export class ResFileDto {
 
   @ApiProperty({ name: 'description', type: String, description: '文件描述' })
   description: string;
+
+  @ApiProperty({
+    name: 'fileNameEn',
+    type: String,
+    description: '文件英文名称',
+  })
+  fileNameEn: string;
+
+  @ApiProperty({
+    name: 'descriptionEn',
+    type: String,
+    description: '文件英文描述',
+    required: false,
+    nullable: true,
+  })
+  @Optional()
+  descriptionEn: string;
 }
 
 export class ResFileListDto {

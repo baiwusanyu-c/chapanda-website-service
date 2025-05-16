@@ -60,9 +60,9 @@ export class UploadService {
       const query = `
           START TRANSACTION;
           INSERT INTO pdf
-          (id, previewUrl, downLoadUrl, fileName, category, description, createTime, updateTime)
+          (id, previewUrl, downLoadUrl, fileName, category, description, descriptionEn, fileNameEn, createTime, updateTime)
           VALUES
-          (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
+          (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
           COMMIT;`;
 
       await this.manager.query<User>(query, [
@@ -72,6 +72,8 @@ export class UploadService {
         createUploadDto.fileName,
         createUploadDto.category,
         createUploadDto.description,
+        createUploadDto.fileNameEn,
+        createUploadDto.descriptionEn,
       ]);
       return genResponse<{ uploadUrl: string }>(
         StatusCode.OK,
@@ -123,6 +125,8 @@ export class UploadService {
       WHERE
         -- 关键字模糊匹配（description或fileName）
         (@keyword IS NULL OR 
+         descriptionEn LIKE CONCAT('%', @keyword, '%') OR 
+         fileNameEn LIKE CONCAT('%', @keyword, '%') OR 
          description LIKE CONCAT('%', @keyword, '%') OR 
          fileName LIKE CONCAT('%', @keyword, '%'))
         
@@ -161,6 +165,8 @@ export class UploadService {
       WHERE
         -- 关键字模糊匹配（description或fileName）
         (@keyword IS NULL OR 
+         descriptionEn LIKE CONCAT('%', @keyword, '%') OR 
+         fileNameEn LIKE CONCAT('%', @keyword, '%') OR 
          description LIKE CONCAT('%', @keyword, '%') OR 
          fileName LIKE CONCAT('%', @keyword, '%'))
         

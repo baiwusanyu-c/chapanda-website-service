@@ -6,6 +6,10 @@
     "empty": "The file name cannot be empty",
     "maxLen": "The file name cannot exceed 50 characters"
   },
+  "fileNameEn": {
+    "empty": "The file name cannot be empty  in English",
+    "maxLen": "The file name cannot exceed 200 characters in English"
+  },
   "category": {
     "empty": "The file category cannot be empty"
   },
