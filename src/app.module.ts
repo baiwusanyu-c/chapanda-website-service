@@ -151,8 +151,8 @@ const ENV_PATH = path.join(process.cwd(), `./env/.env.${process.env.APP_ENV}`);
       endPoint: 'localhost',
       port: 9000,
       useSSL: false,
-      accessKey: 'tc50B1jylj6CrzWdbslT',
-      secretKey: 'q4KLNrFAQT1KCWWoEVjcK47HNuQ3C08F80Ip4dA7',
+      accessKey: 'pTevMzMunZvIg8ZTH9mX',
+      secretKey: 'J9NMsvSAiVz4pH2IqKLrCdC2LZEzNDG7dyDiRYpo',
     }),
     RedisModule.register({
       socket: {

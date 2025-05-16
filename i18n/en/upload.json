@@ -8,5 +8,8 @@
   },
   "category": {
     "empty": "The file category cannot be empty"
+  },
+  "find": {
+    "success": "The query of file data is successful"
   }
 }

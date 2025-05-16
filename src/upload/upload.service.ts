@@ -10,6 +10,8 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 import { v4 as uuidv4 } from 'uuid';
 import { User } from '../user/entities/user.entity';
 import { genResponse, StatusCode } from '../utils';
+import { FindPdfDto } from './dto/find-pdf.dto';
+import { Upload } from './entities/upload.entity';
 
 @Injectable()
 export class UploadService {
@@ -74,6 +76,30 @@ export class UploadService {
           uploadUrl,
         },
         this.i18nGetter('upload.create.success'),
+      );
+    } catch (error) {
+      this.logger.error(error, UploadService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
+      );
+    }
+  }
+  async findPdf(findPdfDto: FindPdfDto) {
+    try {
+
+      const query = `SELECT * FROM pdf WHERE fileName = ? OR id = ?;`;
+
+      const res = await this.manager.query<Upload[]>(query, [
+        findPdfDto.fileName,
+        findPdfDto.id,
+      ]);
+
+      return genResponse<Upload[]>(
+        StatusCode.OK,
+        res,
+        this.i18nGetter('upload.find.success'),
       );
     } catch (error) {
       this.logger.error(error, UploadService.name);
