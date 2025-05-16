@@ -12,6 +12,20 @@ export class CreateOperationCenterDto {
   @MaxLength(200, { message: 'operation.address.maxLen' })
   address: string;
 
+  @ApiProperty({ name: 'name', type: String, description: '营运中心英文名称' })
+  @IsNotEmpty({ message: 'operation.nameEn.empty' })
+  @MaxLength(50, { message: 'operation.nameEn.maxLen' })
+  nameEn: string;
+
+  @ApiProperty({
+    name: 'address',
+    type: String,
+    description: '营运中心英文地址',
+  })
+  @IsNotEmpty({ message: 'operation.addressEn.empty' })
+  @MaxLength(200, { message: 'operation.addressEn.maxLen' })
+  addressEn: string;
+
   @ApiProperty({
     name: 'type',
     enum: ['1', '2'],

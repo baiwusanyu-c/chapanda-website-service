@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-// TODO: 英文
 @Entity()
 export class OperationCenter {
   @PrimaryGeneratedColumn('uuid', {
@@ -19,12 +18,23 @@ export class OperationCenter {
     comment: '营运中心名称',
   })
   name: string;
+  @Column({
+    length: 50,
+    comment: '营运中心英文名称',
+  })
+  nameEn: string;
 
   @Column({
     length: 200,
     comment: '营运中心地址',
   })
   address: string;
+
+  @Column({
+    length: 200,
+    comment: '营运中心英文地址',
+  })
+  addressEn: string;
 
   @Column({
     length: 50,

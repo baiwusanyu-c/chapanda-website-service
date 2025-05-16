@@ -43,6 +43,8 @@ export class OperationCenterService {
           id, 
           name, 
           address, 
+          nameEn, 
+          addressEn, 
           \`type\`, 
           website, 
           supervisionPhone, 
@@ -56,13 +58,15 @@ export class OperationCenterService {
           updateTime
           )
           VALUES
-          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
+          (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
           COMMIT;`;
 
       await this.manager.query<User>(query, [
         uuid,
         createOperationCenterDto.name,
         createOperationCenterDto.address,
+        createOperationCenterDto.nameEn,
+        createOperationCenterDto.addressEn,
         createOperationCenterDto.type,
         createOperationCenterDto.website || null,
         createOperationCenterDto.supervisionPhone || null,
