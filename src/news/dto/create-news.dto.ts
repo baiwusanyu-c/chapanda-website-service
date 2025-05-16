@@ -14,7 +14,7 @@ export class CreateNewsDto {
 
   @ApiProperty({ name: 'titleEn', type: String, description: '新闻英文标题' })
   @IsNotEmpty({ message: 'news.titleEn.empty' })
-  @MaxLength(50, { message: 'news.titleEn.maxLen' })
+  @MaxLength(200, { message: 'news.titleEn.maxLen' })
   titleEn: string;
 
   @ApiProperty({ name: 'detailEn', type: String, description: '新闻英文详情' })
@@ -28,6 +28,6 @@ export class CreateNewsDto {
 
   @ApiProperty({ name: 'title', type: String, description: '新闻标题' })
   @IsNotEmpty({ message: 'news.title.empty' })
-  @MaxLength(50, { message: 'news.title.maxLen' })
+  @MaxLength(200, { message: 'news.title.maxLen' })
   title: string;
 }

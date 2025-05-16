@@ -42,7 +42,7 @@ export class NewsService {
           INSERT INTO news
           (id, title, detail,titleEn, detailEn, link, date, createTime, updateTime)
           VALUES
-          (?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
+          (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
           COMMIT;`;
 
       await this.manager.query<User>(query, [
@@ -71,7 +71,7 @@ export class NewsService {
 
   async list(findNewsDto: FindNewsDto) {
     try {
-      const totalQuery = `SELECT COUNT(*) AS total FROM shop`;
+      const totalQuery = `SELECT COUNT(*) AS total FROM news`;
       const [totalResult] = await this.manager.query<Array<{ total: number }>>(
         totalQuery,
         [],
@@ -79,7 +79,7 @@ export class NewsService {
       const total = totalResult.total;
 
       const recordsQuery = `
-      SELECT * FROM shop
+      SELECT * FROM news
       ORDER BY id 
       LIMIT ? OFFSET ?;
       `;

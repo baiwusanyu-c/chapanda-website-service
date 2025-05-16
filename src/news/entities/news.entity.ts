@@ -14,13 +14,13 @@ export class News {
   id: string;
 
   @Column({
-    length: 50,
+    length: 200,
     comment: '新闻标题',
   })
   title: string;
 
   @Column({
-    length: 50,
+    length: 200,
     comment: '新闻英文标题',
   })
   titleEn: string;
