@@ -40,7 +40,7 @@ export class NewsService {
       const query = `
           START TRANSACTION; 
           INSERT INTO news
-          (id, title, detail, link, date, createTime, updateTime)
+          (id, title, detail,titleEn, detailEn, link, date, createTime, updateTime)
           VALUES
           (?, ?, ?, ?, ?, CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6));
           COMMIT;`;
@@ -49,6 +49,8 @@ export class NewsService {
         uuid,
         createNewsDto.title,
         createNewsDto.detail,
+        createNewsDto.titleEn,
+        createNewsDto.detailEn,
         createNewsDto.link,
         new Date(createNewsDto.date),
       ]);

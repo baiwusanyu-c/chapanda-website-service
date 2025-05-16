@@ -12,13 +12,17 @@ export class CreateOperationCenterDto {
   @MaxLength(200, { message: 'operation.address.maxLen' })
   address: string;
 
-  @ApiProperty({ name: 'name', type: String, description: '营运中心英文名称' })
+  @ApiProperty({
+    name: 'nameEn',
+    type: String,
+    description: '营运中心英文名称',
+  })
   @IsNotEmpty({ message: 'operation.nameEn.empty' })
   @MaxLength(50, { message: 'operation.nameEn.maxLen' })
   nameEn: string;
 
   @ApiProperty({
-    name: 'address',
+    name: 'addressEn',
     type: String,
     description: '营运中心英文地址',
   })

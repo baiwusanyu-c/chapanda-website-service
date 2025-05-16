@@ -13,10 +13,18 @@ export class ResOperationCenter {
   @ApiProperty({ name: 'address', type: String, description: '营运中心地址' })
   address: string;
 
-  @ApiProperty({ name: 'name', type: String, description: '营运中心英文名称' })
+  @ApiProperty({
+    name: 'nameEn',
+    type: String,
+    description: '营运中心英文名称',
+  })
   nameEn: string;
 
-  @ApiProperty({ name: 'address', type: String, description: '营运中心英文地址' })
+  @ApiProperty({
+    name: 'addressEn',
+    type: String,
+    description: '营运中心英文地址',
+  })
   addressEn: string;
 
   @ApiProperty({

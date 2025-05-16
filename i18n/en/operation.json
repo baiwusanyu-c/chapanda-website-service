@@ -10,6 +10,15 @@
     "empty":"The address of the operation center cannot be empty",
     "maxLen": "The operation center address cannot exceed 200 characters"
   },
+  "nameEn": {
+    "empty": "The name of the operation center cannot be empty in English",
+    "maxLen": "The operation center name cannot exceed 50 characters in English"
+  },
+  "addressEn": {
+    "empty":"The address of the operation center cannot be empty in English",
+    "maxLen": "The operation center address cannot exceed 200 characters in English"
+  },
+
   "type": {
     "empty":"The operation Center category cannot be empty",
     "maxLen": "The operation center category cannot exceed 50 characters"
