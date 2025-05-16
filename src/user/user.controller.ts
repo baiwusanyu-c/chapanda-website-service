@@ -34,7 +34,7 @@ export class UserController {
 
   // 创建用户
   @ApiOperation({
-    summary: '创建用户',
+    summary: '[公开]创建用户',
     description: '创建用户接口',
   })
   @ApiBody({
@@ -157,7 +157,7 @@ export class UserController {
   }
 
   @ApiOperation({
-    summary: '用户登录',
+    summary: '[公开]用户登录',
     description: '用户登录接口',
   })
   @ApiBody({
@@ -175,7 +175,7 @@ export class UserController {
   }
 
   @ApiOperation({
-    summary: '用户登出',
+    summary: '[公开]用户登出',
     description: '用户登出接口',
   })
   @ApiBody({

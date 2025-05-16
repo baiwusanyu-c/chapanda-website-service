@@ -58,7 +58,7 @@ export class MenuController {
 
   // 获取完整菜单树
   @ApiOperation({
-    summary: '获取完整菜单树',
+    summary: '[公开]获取完整菜单树',
     description: '获取完整菜单树接口',
   })
   @ApiBody({

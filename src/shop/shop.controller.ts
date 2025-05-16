@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { ShopService } from './shop.service';
 import { CreateShopDto } from './dto/create-shop.dto';
 import {
@@ -12,6 +12,7 @@ import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { CreateShopsDto } from './dto/create-shops.dto';
 import { FindShopDto } from './dto/find-shop.dto';
 import { ResShopListDto } from './dto/res-shop.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(ApiResponseDto, ResShopListDto)
 @ApiHeader({
@@ -40,6 +41,15 @@ export class ShopController {
     description: '创建门店成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCode.OK)
   @Post('insert')
   create(@Body() createShopDto: CreateShopDto) {
@@ -58,6 +68,15 @@ export class ShopController {
     description: '批量创建门店成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCode.OK)
   @Post('batch-insert')
   batchCreate(@Body() createShopsDto: CreateShopsDto) {
@@ -65,7 +84,7 @@ export class ShopController {
   }
 
   @ApiOperation({
-    summary: '查询门店',
+    summary: '[公开]查询门店',
     description: '查询门店接口',
   })
   @ApiBody({

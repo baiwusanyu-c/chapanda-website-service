@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { FranchiseService } from './franchise.service';
 import { CreateFranchiseDto } from './dto/create-franchise.dto';
 import { FindFranchiseDto } from './dto/find-franchise.dto';
@@ -12,6 +12,7 @@ import {
 import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { FindShopDto } from '../shop/dto/find-shop.dto';
 import { ResFranchiseListDto } from './dto/res-franchise.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(ApiResponseDto, ResFranchiseListDto)
 @ApiHeader({
@@ -40,6 +41,15 @@ export class FranchiseController {
     description: '创建加盟步骤成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCode.OK)
   @Post('process-insert')
   create(@Body() createFranchiseDto: CreateFranchiseDto) {
@@ -47,7 +57,7 @@ export class FranchiseController {
   }
 
   @ApiOperation({
-    summary: '查询加盟步骤',
+    summary: '[公开]查询加盟步骤',
     description: '查询加盟步骤接口',
   })
   @ApiBody({

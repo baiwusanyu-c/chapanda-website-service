@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { NewsService } from './news.service';
 import { CreateNewsDto } from './dto/create-news.dto';
 import {
@@ -11,6 +11,7 @@ import {
 import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { FindNewsDto } from './dto/find-news.dto';
 import { ResNewsListDto } from './dto/res-news.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(ApiResponseDto, ResNewsListDto, FindNewsDto)
 @ApiHeader({
@@ -39,6 +40,15 @@ export class NewsController {
     description: '创建新闻成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCode.OK)
   @Post('insert')
   create(@Body() createNewsDto: CreateNewsDto) {
@@ -46,7 +56,7 @@ export class NewsController {
   }
 
   @ApiOperation({
-    summary: '查询新闻',
+    summary: '[公开]查询新闻',
     description: '查询新闻接口',
   })
   @ApiBody({

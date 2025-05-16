@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { OperationCenterService } from './operation-center.service';
 import { CreateOperationCenterDto } from './dto/create-operation-center.dto';
 import {
@@ -11,6 +11,7 @@ import {
 import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { FindOperationCenterDto } from './dto/find-operation-center.dto';
 import { ResOperationCenterListDto } from './dto/res-operation-center.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(
   ApiResponseDto,
@@ -45,6 +46,15 @@ export class OperationCenterController {
     description: '创建营运中心成功',
     content: genResContent(null),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCode.OK)
   @Post('insert')
   create(@Body() createOperationCenterDto: CreateOperationCenterDto) {
@@ -52,7 +62,7 @@ export class OperationCenterController {
   }
 
   @ApiOperation({
-    summary: '查询营运中心',
+    summary: '[公开]查询营运中心',
     description: '查询营运中心接口',
   })
   @ApiBody({

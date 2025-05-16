@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
 import { UploadService } from './upload.service';
 import { CreateUploadDto } from './dto/create-upload.dto';
 import {
@@ -13,6 +13,7 @@ import { UploadUrlDto } from './dto/upload-url.dto';
 import { FindPdfDto } from './dto/find-pdf.dto';
 import { ResFileDto, ResFileListDto } from './dto/res-file.dto';
 import { FindPdfsDto } from './dto/find-pdf-list.dto';
+import { JwtAuthGuard } from '../auth/auth.jwt.guard';
 
 @ApiExtraModels(ApiResponseDto, UploadUrlDto, ResFileDto, ResFileListDto)
 @ApiHeader({
@@ -41,6 +42,15 @@ export class UploadController {
     description: 'pdf文件上传地址获取成功',
     content: genResContent(UploadUrlDto),
   })
+  @ApiHeader({
+    name: 'token', // 请求头名称
+    description: '身份认证标记', // 描述
+    required: true, // 标记为可选
+    schema: {
+      type: 'string',
+    },
+  })
+  @UseGuards(JwtAuthGuard)
   @HttpCode(StatusCode.OK)
   @Post('pdf')
   pdf(@Body() createUploadDto: CreateUploadDto) {
@@ -48,7 +58,7 @@ export class UploadController {
   }
 
   @ApiOperation({
-    summary: 'pdf文件查询',
+    summary: '[公开]pdf文件查询',
     description: 'pdf文件查询接口',
   })
   @ApiBody({
@@ -66,7 +76,7 @@ export class UploadController {
   }
 
   @ApiOperation({
-    summary: 'pdf文件列表查询',
+    summary: '[公开]pdf文件列表查询',
     description: 'pdf文件列表查询接口',
   })
   @ApiBody({
