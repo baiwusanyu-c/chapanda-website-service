@@ -34,7 +34,7 @@ export class ResFranchiseDto {
     description: '加盟步骤英文详情',
     type: 'string',
   })
-  date: string;
+  detailEn: string;
 
   @ApiProperty({
     description: '创建时间',
