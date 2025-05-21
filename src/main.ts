@@ -5,9 +5,12 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { WINSTON_LOGGER_TOKEN } from './logger/logger.module';
 import { I18nValidationPipe } from 'nestjs-i18n';
 import { UnifiedExceptionFilter } from './unified-exception.filter';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true, // TODO: 放开跨域 或 app.enableCors()
+  });
   const configService = app.get(ConfigService);
   const port = configService.get<number>('APP_CONFIG.app_port') || 3000;
 

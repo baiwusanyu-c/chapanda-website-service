@@ -265,6 +265,7 @@ export class UserService {
           StatusCode.OK,
           {
             token,
+            id: user.id,
           },
           this.i18nGetter('user.login.success'),
         );
