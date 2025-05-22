@@ -10,6 +10,9 @@ import { I18nContext, I18nService } from 'nestjs-i18n';
 import { Permission } from './entities/permission.entity';
 import { SetUserPermissionDto } from './dto/set-user-permission.dto';
 import { UserService } from '../user/user.service';
+import { UserMenuPermissionDto } from './dto/user-menu-permission.dto';
+import { ResUserMenuPermissionDto } from './dto/res-user-menu-permission.dto';
+import { MenuService } from '../menu/menu.service';
 
 @Injectable()
 export class PermissionService {
@@ -21,6 +24,8 @@ export class PermissionService {
   i18n: I18nService;
   @Inject(UserService)
   private userService: UserService;
+  @Inject(MenuService)
+  private menuService: MenuService;
   i18nGetter(key: string, operation?: string) {
     return this.i18n.t<string, string>(
       // 文案的 key
@@ -118,6 +123,56 @@ export class PermissionService {
       throw new HttpException(
         this.i18nGetter('permission.assignment.bad'),
         StatusCode.OK,
+      );
+    }
+  }
+
+  async userMenuPermission(params: UserMenuPermissionDto) {
+    const { id, menuPath } = params;
+    try {
+      const { data: user } = await this.userService.findOne(id);
+      const permissions = (user || { permissions: [] }).permissions;
+      // 分配了权限，则根据路径，查出符合的菜单，对照 是否存在其id即可
+      try {
+        if (permissions && permissions.length > 0) {
+          const permissionsStr = JSON.stringify(permissions);
+          const menuRes = await this.menuService.findMenuByPath(menuPath);
+          if (menuRes && menuRes.success) {
+            const hasPermission = menuRes.res.some((m) => {
+              return permissionsStr.includes(m.id);
+            });
+            if (!hasPermission) {
+              throw new Error('unPermission');
+            }
+            return genResponse<ResUserMenuPermissionDto>(
+              StatusCode.OK,
+              {
+                hasPermission,
+              },
+              this.i18nGetter('permission.menu.success'),
+            );
+          } else {
+            throw new Error('unPermission');
+          }
+        } else {
+          throw new Error('unPermission');
+        }
+      } catch (error) {
+        console.log(error);
+        return genResponse<ResUserMenuPermissionDto>(
+          StatusCode.OK,
+          {
+            hasPermission: false,
+          },
+          this.i18nGetter('permission.menu.unPermission'),
+        );
+      }
+    } catch (error) {
+      this.logger.error(error, PermissionService.name);
+      return genResponse<null>(
+        StatusCode.UnknownError,
+        null,
+        (error as ErrorEvent).message,
       );
     }
   }

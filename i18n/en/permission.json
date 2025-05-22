@@ -30,6 +30,12 @@
     "bad": "Permission assignment failed with no permissions or user found",
     "success": "The permission assignment is successful"
   },
+  "menu": {
+    "emptyId": "The user ID cannot be empty",
+    "emptyPath": "The menu path cannot be empty or empty",
+    "success": "The query permission is successful",
+    "unPermission": "The user does not have path permissions, please log in to try again or contact the administrator"
+  },
   "exception": {
     "exist": "The menu already exists"
   }

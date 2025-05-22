@@ -1,4 +1,3 @@
-
 export const MYSQL_CONFIG = {
   mysql_server_host: 'localhost',
   mysql_server_port: 3306,

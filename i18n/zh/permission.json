@@ -30,6 +30,12 @@
     "bad": "权限分配失败,未找到权限或用户",
     "success": "权限分配成功"
   },
+  "menu": {
+    "emptyId": "用户 id 不能为空",
+    "emptyPath": "菜单路径不能为空不能为空",
+    "success": "查询权限成功",
+    "unPermission": "该用户没有路径权限，请登录重试或联系管理员"
+  },
   "exception": {
     "exist": "权限名称重复"
   }

@@ -3,13 +3,16 @@ import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import {
   ApiBody,
+  ApiExtraModels,
   ApiHeaders,
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
-import { genResContent, StatusCode } from '../utils';
+import { ApiResponseDto, genResContent, StatusCode } from '../utils';
 import { SetUserPermissionDto } from './dto/set-user-permission.dto';
 import { JwtAuthGuard } from '../auth/auth.jwt.guard';
+import { UserMenuPermissionDto } from './dto/user-menu-permission.dto';
+import { ResUserMenuPermissionDto } from './dto/res-user-menu-permission.dto';
 
 @ApiHeaders([
   {
@@ -31,6 +34,7 @@ import { JwtAuthGuard } from '../auth/auth.jwt.guard';
     },
   },
 ])
+@ApiExtraModels(ApiResponseDto, ResUserMenuPermissionDto)
 @Controller('permission')
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
@@ -71,5 +75,24 @@ export class PermissionController {
   @Post('setPermissionToUser')
   setPermission(@Body() params: SetUserPermissionDto) {
     return this.permissionService.setPermission(params);
+  }
+
+  @ApiOperation({
+    summary: '[公开]查询用户是否存在菜单权限',
+    description: '根据用户 id 与菜单路径查询用户是否有权限',
+  })
+  @ApiBody({
+    type: UserMenuPermissionDto,
+  })
+  @ApiResponse({
+    status: StatusCode.OK,
+    description: '查询成功',
+    content: genResContent(ResUserMenuPermissionDto),
+  })
+  @HttpCode(StatusCode.OK)
+  @UseGuards(JwtAuthGuard)
+  @Post('user-menu-permission')
+  userMenuPermission(@Body() params: UserMenuPermissionDto) {
+    return this.permissionService.userMenuPermission(params);
   }
 }
