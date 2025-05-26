@@ -33,6 +33,9 @@ export class Menu {
   @Column({ length: 100, comment: '菜单路径' })
   path: string;
 
+  @Column({ comment: '是否展示' })
+  show: boolean;
+
   @Column({ nullable: true, comment: '父级菜单id' })
   parentId?: string;
 

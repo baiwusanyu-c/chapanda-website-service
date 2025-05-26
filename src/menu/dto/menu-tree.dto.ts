@@ -24,6 +24,13 @@ export class MenuTreeDto {
   path: string;
 
   @ApiProperty({
+    name: 'show',
+    type: Boolean,
+    description: '是否展示',
+  })
+  show: boolean;
+
+  @ApiProperty({
     name: 'parentId',
     type: String,
     description: '父菜单节点Id',

@@ -44,6 +44,7 @@ export class MenuService {
           SET @menu_icon = ?;
           SET @menu_path = ?;
           SET @menu_parent_id = ?;
+          SET @menu_show = ?;
           SET @new_order = (
             SELECT COALESCE(MAX(\`order\`), 0) + 1
             FROM menu
@@ -62,7 +63,7 @@ export class MenuService {
                 CONVERT(@menu_parent_id USING utf8mb4) COLLATE utf8mb4_0900_ai_ci
               )
           );
-          INSERT INTO menu (id, nameEn, name, icon, path, parentId, \`order\`, level)
+          INSERT INTO menu (id, nameEn, name, icon, path, parentId, \`order\`, level, \`show\`)
           VALUES (
            @new_id,
            @menu_name_en,
@@ -71,7 +72,8 @@ export class MenuService {
            @menu_path,
            @menu_parent_id,
            @new_order,
-           @menu_level
+           @menu_level,
+           @menu_show
           );
           
           -- 复制插入节点的祖先节点，比如
@@ -104,6 +106,7 @@ export class MenuService {
         createMenuDto.icon,
         createMenuDto.path,
         createMenuDto.parentId || null,
+        createMenuDto.show,
       ]);
       return genResponse<null>(
         StatusCode.OK,

@@ -17,6 +17,14 @@ export class CreateMenuDto {
   nameEn: string;
 
   @ApiProperty({
+    name: 'show',
+    type: Boolean,
+    description: '是否展示',
+  })
+  @IsNotEmpty({ message: 'menu.show.empty' })
+  show: boolean;
+
+  @ApiProperty({
     name: 'icon',
     type: String,
     description: '菜单图标',

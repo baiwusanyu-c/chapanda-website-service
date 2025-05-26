@@ -6,6 +6,9 @@
     "empty": "The menu name cannot be empty",
     "length": "Menu names cannot exceed to 50 characters"
   },
+  "show": {
+    "empty": "The Whether the menu is displayed field cannot be empty"
+  },
   "create": {
     "success": "create menu successfully"
   },
