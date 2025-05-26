@@ -16,19 +16,19 @@ export class Upload {
   id: string;
 
   @Column({
-    length: 500,
+    length: 5000,
     comment: '预览地址',
   })
   previewUrl: string;
 
   @Column({
-    length: 500,
+    length: 5000,
     comment: '下载地址',
   })
   downLoadUrl: string;
 
   @Column({
-    length: 50,
+    length: 500,
     comment: '文件名称',
   })
   fileName: string;
@@ -40,7 +40,7 @@ export class Upload {
   description: string;
 
   @Column({
-    length: 200,
+    length: 500,
     comment: '文件英文名称',
   })
   fileNameEn: string;

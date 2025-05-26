@@ -260,7 +260,7 @@ export class UserService {
           },
         });
         // token save to redis
-        await this.redisService.setKey(`user:${user.id}`, token, 7200);
+        await this.redisService.setKey(`user:${user.id}`, token, 720000);
         return genResponse<LoginUserResDto>(
           StatusCode.OK,
           {

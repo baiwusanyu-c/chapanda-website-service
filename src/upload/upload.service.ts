@@ -224,7 +224,7 @@ export class UploadService {
     fileName: string,
     expires = 60 * 60,
   ): Promise<string> {
-    return this.minioClient.presignedPutObject(bucketName, fileName, expires);
+    return this.minioClient.presignedPutObject(bucketName, encodeURIComponent(fileName), expires);
   }
 
   // 生成文件下载地址（GET 方法，浏览器会触发下载）
@@ -233,7 +233,7 @@ export class UploadService {
     fileName: string,
     expires = 60 * 60,
   ): Promise<string> {
-    return this.minioClient.presignedGetObject(bucketName, fileName, expires);
+    return this.minioClient.presignedGetObject(bucketName, encodeURIComponent(fileName), expires);
   }
 
   // 生成文件下载地址（GET 方法，浏览器会触发下载）

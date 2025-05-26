@@ -5,7 +5,7 @@ import { Optional } from '@nestjs/common';
 export class CreateUploadDto {
   @ApiProperty({ name: 'fileName', type: String, description: '文件名称' })
   @IsNotEmpty({ message: 'upload.fileName.empty' })
-  @MaxLength(50, { message: 'upload.fileName.maxLen' })
+  @MaxLength(500, { message: 'upload.fileName.maxLen' })
   fileName: string;
 
   @ApiProperty({
@@ -24,7 +24,7 @@ export class CreateUploadDto {
     description: '文件英文名称',
   })
   @IsNotEmpty({ message: 'upload.fileNameEn.empty' })
-  @MaxLength(200, { message: 'upload.fileNameEn.maxLen' })
+  @MaxLength(500, { message: 'upload.fileNameEn.maxLen' })
   fileNameEn: string;
 
   @ApiProperty({

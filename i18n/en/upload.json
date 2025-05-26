@@ -4,7 +4,7 @@
   },
   "fileName": {
     "empty": "The file name cannot be empty",
-    "maxLen": "The file name cannot exceed 50 characters"
+    "maxLen": "The file name cannot exceed 500 characters"
   },
   "fileNameEn": {
     "empty": "The file name cannot be empty  in English",
