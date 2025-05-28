@@ -51,7 +51,7 @@ jobs:
             ssh $SSH_USER@$SSH_HOST "
             cd ~/chapanda/service
             rm -rf ./chapanda-website-service || true
-            git -c "http.https://github.com.extraheader=Authorization: Bearer $GH_TOKEN" clone --depth 1 -b master https://github.com/baiwusanyu-c/chapanda-website-service.git ./chapanda-website-service
+            git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
             cd ./chapanda-website-service 
             ls"
       
