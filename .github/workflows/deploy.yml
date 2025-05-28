@@ -45,8 +45,6 @@ jobs:
             rm -rf ./chapanda-website-service || true
             git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
             cd ./chapanda-website-service 
-            pnpm install
-            pnpm run build
             export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
             export REDIS_PASSWORD='$REDIS_PASSWORD'
             bash ./scripts/setup.sh"

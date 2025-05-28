@@ -13,7 +13,7 @@ services:
   #     - common-network
 
   chapanda-mysql-container:
-    image: mysql
+    image: docker.1ms.run/library/mysql
     volumes:
       - /chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
     environment:
@@ -23,7 +23,7 @@ services:
       - common-network
 
   chapanda-redis-container:
-    image: redis
+    image: docker.1ms.run/library/redis
     volumes:
       - /chapanda/docker-volume/chapanda-redis:/data
     environment:
