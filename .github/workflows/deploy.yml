@@ -36,6 +36,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
           #强制创建 .ssh 目录（-p 防止目录不存在报错）
           #将私钥内容写入文件
           #必须操作！SSH 协议要求私钥不可被其他用户读取,600 = 用户读写，其他无权限
@@ -50,8 +51,7 @@ jobs:
             ssh $SSH_USER@$SSH_HOST "
             cd ~/chapanda/service
             rm -rf ./chapanda-website-service || true
-            mkdir chapanda-website-service 
+            git -c "http.https://github.com.extraheader=Authorization: Bearer $GH_TOKEN" clone --depth 1 -b master https://github.com/baiwusanyu-c/chapanda-website-service.git ./chapanda-website-service
             cd ./chapanda-website-service 
-            git pull origin main
             ls"
       
