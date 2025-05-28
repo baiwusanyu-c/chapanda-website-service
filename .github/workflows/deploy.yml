@@ -30,10 +30,6 @@ jobs:
         with:
           node-version: lts/*
           cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
-
-      - name: Install dependencies  # 新增的安装步骤
-        run: pnpm install --frozen-lockfile
 
       - name: Deploy to server
         env:
@@ -54,7 +50,7 @@ jobs:
             ssh $SSH_USER@$SSH_HOST "
             cd ~/chapanda/service
             rm -rf ./chapanda-website-service || true
-            git clone git@github.com:baiwusanyu-c/chapanda-website-service.git ./chapanda-website-service
+            git clone git@github.com:baiwusanyu-c/panda-website.git ./chapanda-website-service
             cd ./chapanda-website-service 
             ls"
       
