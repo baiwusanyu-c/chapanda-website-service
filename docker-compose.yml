@@ -1,23 +1,23 @@
 version: '3.8'
 services:
-  chapanda-website-service:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    depends_on:
-      - chapanda-mysql-container
-      - chapanda-redis-container
-    ports:
-      - 8084:8084
-    networks:
-      - common-network
+  # chapanda-website-service:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./Dockerfile
+  #   depends_on:
+  #     - chapanda-mysql-container
+  #     - chapanda-redis-container
+  #   ports:
+  #     - 8084:8084
+  #   networks:
+  #     - common-network
 
   chapanda-mysql-container:
     image: mysql
     volumes:
-      - /www/apps/docker-data/mysql:/var/lib/mysql
+      - /chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: picals
+      MYSQL_DATABASE: chapanda-website-database
       MYSQL_ROOT_PASSWORD: xxxxxx
     networks:
       - common-network
@@ -25,7 +25,9 @@ services:
   chapanda-redis-container:
     image: redis
     volumes:
-      - /www/apps/docker-data/redis:/data
+      - /chapanda/docker-volume/chapanda-redis:/data
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
     networks:
       - common-network
 

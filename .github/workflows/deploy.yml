@@ -28,6 +28,8 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           SSH_USER: ${{ secrets.SSH_USER }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
           # 强制创建 .ssh 目录（-p 防止目录不存在报错）
           # 将私钥内容写入文件
           # 必须操作！SSH 协议要求私钥不可被其他用户读取,600 = 用户读写，其他无权限
@@ -45,5 +47,7 @@ jobs:
             cd ./chapanda-website-service 
             pnpm install
             pnpm run build
+            export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
+            export REDIS_PASSWORD='$REDIS_PASSWORD'
             bash ./scripts/setup.sh"
       
