@@ -48,8 +48,9 @@ jobs:
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST "
-            cd /chapanda/service
+            cd ~/chapanda/service
             rm -rf ./chapanda-website-service || true
             git clone git@github.com:baiwusanyu-c/chapanda-website-service.git ./chapanda-website-service
-            cd ./chapanda-website-service
-            npm install"
+            cd ./chapanda-website-service 
+            ls"
+      
