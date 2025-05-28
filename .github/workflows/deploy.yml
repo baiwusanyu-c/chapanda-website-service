@@ -30,6 +30,10 @@ jobs:
         with:
           node-version: lts/*
           cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Install dependencies  # 新增的安装步骤
+        run: pnpm install --frozen-lockfile
 
       - name: Deploy to server
         env:
@@ -46,7 +50,7 @@ jobs:
             mkdir -p ~/.ssh
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+            ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST "
             cd ~/chapanda/service
             rm -rf ./chapanda-website-service || true
