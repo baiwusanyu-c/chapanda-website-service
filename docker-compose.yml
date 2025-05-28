@@ -5,14 +5,14 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     depends_on:
-      - mysql-container
-      - redis-container
+      - chapanda-mysql-container
+      - chapanda-redis-container
     ports:
       - 8084:8084
     networks:
       - common-network
 
-  mysql-container:
+  chapanda-mysql-container:
     image: mysql
     volumes:
       - /www/apps/docker-data/mysql:/var/lib/mysql
@@ -22,7 +22,7 @@ services:
     networks:
       - common-network
 
-  redis-container:
+  chapanda-redis-container:
     image: redis
     volumes:
       - /www/apps/docker-data/redis:/data
