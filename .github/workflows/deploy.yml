@@ -40,15 +40,15 @@ jobs:
           #必须操作！SSH 协议要求私钥不可被其他用户读取,600 = 用户读写，其他无权限
           # 自动记录服务器指纹到信任列表,避免首次连接时的 "Are you sure?" 提示阻断流程
           # 通过 SSH 连接服务器, 进入项目目录，清空当前目录后，拉取最新代码并安装依赖后执行 setup.sh
+          # bash ./scripts/setup.sh
         run: |
             mkdir -p ~/.ssh
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
             ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST "
-            cd /path/to/your 
-            rm -rf ./project || true
-            git clone git@github.com:your-username/your-repo.git ./project
-            cd ./your-project
-            npm install
-            bash ./scripts/setup.sh"
+            cd /chapanda/service
+            rm -rf ./chapanda-website-service || true
+            git clone git@github.com:baiwusanyu-c/chapanda-website-service.git ./chapanda-website-service
+            cd ./chapanda-website-service
+            npm install"
