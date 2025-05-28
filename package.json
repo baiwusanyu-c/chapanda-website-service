@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "packageManager": "pnpm@9.15.0",
   "scripts": {
     "init": "pnpm install",
     "start:dev": "cross-env APP_ENV=development nest start --watch",
