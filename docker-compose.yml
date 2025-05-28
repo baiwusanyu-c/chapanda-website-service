@@ -18,7 +18,7 @@ services:
       - /chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: chapanda-website-database
-      MYSQL_ROOT_PASSWORD: xxxxxx
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     networks:
       - common-network
 
