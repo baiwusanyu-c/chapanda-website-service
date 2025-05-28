@@ -44,6 +44,7 @@ jobs:
             rm -rf ./chapanda-website-service || true
             git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
             cd ./chapanda-website-service 
+            pnpm install
             pnpm run build
             ls"
       
