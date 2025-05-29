@@ -16,7 +16,7 @@ services:
   chapanda-mysql-container:
     image: docker.1ms.run/library/mysql
     volumes:
-      - /chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
+      - ~/chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
     environment:
       MYSQL_DATABASE: chapanda-website-database
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -28,7 +28,7 @@ services:
   chapanda-redis-container:
     image: docker.1ms.run/library/redis
     volumes:
-      - /chapanda/docker-volume/chapanda-redis:/data
+      - ~/chapanda/docker-volume/chapanda-redis:/data
     environment:
       REDIS_PASSWORD: ${REDIS_ROOT_PASSWORD}
     ports:
@@ -40,7 +40,7 @@ services:
     image: docker.1ms.run/bitnami/minio
     command: server /bitnami/minio/data --console-address ":9001"
     volumes:
-      - /chapanda/docker-volume/chapanda-minio:/bitnami/minio/data
+      - ~/chapanda/docker-volume/chapanda-minio:/bitnami/minio/data
     environment:
       MINIO_ROOT_USER: ${MINIO_ROOT_USER}
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
