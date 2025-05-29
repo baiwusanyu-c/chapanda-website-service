@@ -36,7 +36,7 @@ import { Franchise } from './franchise/entities/franchise.entity';
 import { UploadModule } from './upload/upload.module';
 import { MinioModule } from './minio/minio.module';
 import { Upload } from './upload/entities/upload.entity';
-import configuration, { ENV_CONFIG } from '../env/config.env.development';
+import configuration, { ENV_CONFIG } from '../env/config.env';
 
 @Module({
   imports: [
@@ -157,6 +157,7 @@ import configuration, { ENV_CONFIG } from '../env/config.env.development';
       socket: {
         host: ENV_CONFIG.REDIS_CONFIG.redis_server_host,
         port: ENV_CONFIG.REDIS_CONFIG.redis_server_port,
+        password: ENV_CONFIG.REDIS_CONFIG.redis_root_password
       },
     }),
     UserModule,

@@ -6,6 +6,7 @@ export interface RedisModuleOptions {
   socket: {
     host: string;
     port: number;
+    password: string;
   };
 }
 

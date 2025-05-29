@@ -7,6 +7,7 @@ services:
     depends_on:
       - chapanda-mysql-container
       - chapanda-redis-container
+      - chapanda-minio-container
     ports:
       - 8084:8084
     networks:
@@ -19,6 +20,8 @@ services:
     environment:
       MYSQL_DATABASE: chapanda-website-database
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
     networks:
       - common-network
 
@@ -27,7 +30,22 @@ services:
     volumes:
       - /chapanda/docker-volume/chapanda-redis:/data
     environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PASSWORD: ${REDIS_ROOT_PASSWORD}
+    ports:
+      - 6379:6379
+    networks:
+      - common-network
+
+  chapanda-minio-container:
+    image: docker.1ms.run/bitnami/minio
+    volumes:
+      - /chapanda/docker-volume/chapanda-minio:/bitnami/minio/data
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    ports:
+      - 9000:9000
+      - 9001:9001
     networks:
       - common-network
 

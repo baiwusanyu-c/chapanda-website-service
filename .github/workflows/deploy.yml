@@ -29,12 +29,22 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+          MYSQL_ROOT_USER: ${{ secrets.MYSQL_ROOT_USER }}
+          MYSQL_SERVER_HOST: ${{ secrets.MYSQL_SERVER_HOST }}
+          REDIS_SERVER_HOST: ${{ secrets.REDIS_SERVER_HOST }}
+          REDIS_ROOT_PASSWORD: ${{ secrets.REDIS_ROOT_PASSWORD }}
+          MINIO_SERVER_HOST: ${{ secrets.MINIO_SERVER_HOST }}
+          MINIO_SERVER_BUKET: ${{ secrets.MINIO_SERVER_BUKET }}
+          MINIO_SERVER_ACCESS: ${{ secrets.MINIO_SERVER_ACCESS }}
+          MINIO_SERVER_SECRET: ${{ secrets.MINIO_SERVER_SECRET }}
+          MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER }}
+          MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD }}
           # 强制创建 .ssh 目录（-p 防止目录不存在报错）
           # 将私钥内容写入文件
           # 必须操作！SSH 协议要求私钥不可被其他用户读取,600 = 用户读写，其他无权限
           # 自动记录服务器指纹到信任列表,避免首次连接时的 "Are you sure?" 提示阻断流程
-          # 通过 SSH 连接服务器, 进入项目目录，清空当前目录后，拉取最新代码并安装依赖后执行 setup.sh
+          # 通过 SSH 连接服务器, 进入项目目录，清空当前目录后，拉取最新代码并安装依赖、打包、写入环境变量文件
+          # 后执行 setup.sh
         run: |
             mkdir -p ~/.ssh
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
@@ -46,8 +56,22 @@ jobs:
             git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
             cd ./chapanda-website-service 
             export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
-            export REDIS_PASSWORD='$REDIS_PASSWORD'
+            export REDIS_ROOT_PASSWORD='$REDIS_ROOT_PASSWORD'
+            export MINIO_ROOT_USER='MINIO_ROOT_USER'
+            export MINIO_ROOT_PASSWORD='MINIO_ROOT_PASSWORD'
             pnpm install
             pnpm run build
+            mkdir -p dist/env
+            cat > dist/env/.env <<EOF
+            MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
+            MYSQL_ROOT_USER='$MYSQL_ROOT_USER'
+            MYSQL_SERVER_HOST='$MYSQL_SERVER_HOST'
+            REDIS_SERVER_HOST='$REDIS_SERVER_HOST'
+            REDIS_ROOT_PASSWORD='$REDIS_ROOT_PASSWORD'
+            MINIO_SERVER_HOST='$MINIO_SERVER_HOST'
+            MINIO_SERVER_ACCESS='$MINIO_SERVER_ACCESS'
+            MINIO_SERVER_SECRET='$MINIO_SERVER_SECRET'
+            MINIO_SERVER_BUKET='$MINIO_SERVER_BUKET'
+            EOF
             bash ./scripts/setup.sh"
       
