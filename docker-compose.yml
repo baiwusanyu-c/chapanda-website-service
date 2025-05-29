@@ -38,6 +38,7 @@ services:
 
   chapanda-minio-container:
     image: docker.1ms.run/bitnami/minio
+    command: server /bitnami/minio/data --console-address ":9001"
     volumes:
       - /chapanda/docker-volume/chapanda-minio:/bitnami/minio/data
     environment:
