@@ -4,8 +4,6 @@ WORKDIR /chapanda-website-service
 
 COPY . .
 
-RUN ls
-
 # production stage
 FROM docker.1ms.run/library/node:23.0-alpine3.19 as production-stage
 
@@ -20,8 +18,6 @@ RUN npm config set registry https://registry.npmmirror.com/
 RUN npm install pnpm --global
 
 RUN pnpm install
-
-RUN ls
 
 EXPOSE 8084
 
