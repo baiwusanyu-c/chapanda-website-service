@@ -37,7 +37,7 @@ services:
       - common-network
 
   chapanda-minio-container:
-    image: docker.1ms.run/bitnami/minio
+    image: bitnami/minio:latest
     user: "root:root"
     command: server /bitnami/minio/data --console-address ":9001"
     volumes:
