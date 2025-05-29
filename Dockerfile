@@ -12,7 +12,7 @@ RUN pnpm install
 
 COPY . .
 
-RUN pnpm run build
+RUN ls
 
 # production stage
 FROM docker.1ms.run/library/node:23.0-alpine3.19 as production-stage
