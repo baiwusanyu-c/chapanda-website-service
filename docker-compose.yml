@@ -1,17 +1,17 @@
 version: '3.8'
 services:
-  # chapanda-website-service:
-  #   build:
-  #     context: ./
-  #     dockerfile: ./Dockerfile
-  #   depends_on:
-  #     - chapanda-mysql-container
-  #     - chapanda-redis-container
-  #     - chapanda-minio-container
-  #   ports:
-  #     - 8084:8084
-  #   networks:
-  #     - common-network
+  chapanda-website-service:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    depends_on:
+      - chapanda-mysql-container
+      - chapanda-redis-container
+      - chapanda-minio-container
+    ports:
+      - 8084:8084
+    networks:
+      - common-network
 
   chapanda-mysql-container:
     image: docker.1ms.run/library/mysql

@@ -22,6 +22,6 @@ RUN pnpm install --production
 
 RUN ls
 
-# EXPOSE 3005
-#
-# CMD ["node", "/chapanda-website-service/src/main.js"]
+EXPOSE 8084
+
+CMD ["node", "/chapanda-website-service/src/main.js"]
