@@ -18,7 +18,7 @@ RUN npm config set registry https://registry.npmmirror.com/
 
 RUN npm install pnpm --global
 
-RUN pnpm install --production
+RUN pnpm install
 
 RUN ls
 
