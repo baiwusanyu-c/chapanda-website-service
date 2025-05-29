@@ -157,7 +157,7 @@ import configuration, { ENV_CONFIG } from '../env/config.env';
       socket: {
         host: ENV_CONFIG.REDIS_CONFIG.redis_server_host,
         port: ENV_CONFIG.REDIS_CONFIG.redis_server_port,
-        password: ENV_CONFIG.REDIS_CONFIG.redis_root_password
+        password: ENV_CONFIG.REDIS_CONFIG.redis_root_password,
       },
     }),
     UserModule,
