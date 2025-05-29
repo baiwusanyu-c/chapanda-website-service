@@ -1,29 +1,35 @@
-FROM node:18.0-alpine3.14 as build-stage
+FROM docker.1ms.run/library/node:23.0-alpine3.19 as build-stage
 
-WORKDIR /app
+WORKDIR /chapanda-website-service
 
 COPY package.json .
 
 RUN npm config set registry https://registry.npmmirror.com/
 
-RUN npm install
+RUN npm install pnpm
+
+RUN pnpm install
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
 # production stage
-FROM node:18.0-alpine3.14 as production-stage
+FROM docker.1ms.run/library/node:23.0-alpine3.19 as production-stage
 
-COPY --from=build-stage /app/dist /app
-COPY --from=build-stage /app/package.json /app/package.json
+COPY --from=build-stage /chapanda-website-service/dist /chapanda-website-service
+COPY --from=build-stage /chapanda-website-service/package.json /chapanda-website-service/package.json
 
-WORKDIR /app
+WORKDIR /chapanda-website-service
 
 RUN npm config set registry https://registry.npmmirror.com/
 
-RUN npm install --production
+RUN npm install pnpm
 
-EXPOSE 3005
+RUN pnpm install --production
 
-CMD ["node", "/app/main.js"]
+RUN ls
+
+# EXPOSE 3005
+#
+# CMD ["node", "/chapanda-website-service/src/main.js"]

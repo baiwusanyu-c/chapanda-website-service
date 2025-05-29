@@ -47,5 +47,7 @@ jobs:
             cd ./chapanda-website-service 
             export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
             export REDIS_PASSWORD='$REDIS_PASSWORD'
+            pnpm install
+            pnpm run build
             bash ./scripts/setup.sh"
       
