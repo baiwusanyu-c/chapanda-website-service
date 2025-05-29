@@ -61,19 +61,6 @@ jobs:
             export MINIO_ROOT_PASSWORD='MINIO_ROOT_PASSWORD'
             pnpm install
             pnpm run build
-            mkdir -p dist/env
-            echo 'MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD' >> dist/env/.env
-            echo 'MYSQL_ROOT_USER=$MYSQL_ROOT_USER' >> dist/env/.env
-            echo 'MYSQL_SERVER_HOST=$MYSQL_SERVER_HOST' >> dist/env/.env
-            echo 'REDIS_SERVER_HOST=$REDIS_SERVER_HOST' >> dist/env/.env
-            echo 'REDIS_ROOT_PASSWORD=$REDIS_ROOT_PASSWORD' >> dist/env/.env
-            echo 'MINIO_SERVER_HOST=$MINIO_SERVER_HOST' >> dist/env/.env
-            echo 'MINIO_SERVER_ACCESS=$MINIO_SERVER_ACCESS' >> dist/env/.env
-            echo 'MINIO_SERVER_SECRET=$MINIO_SERVER_SECRET' >> dist/env/.env
-            echo 'MINIO_SERVER_BUKET=$MINIO_SERVER_BUKET' >> dist/env/.env
-            if [ ! -f dist/env/.env ]; then
-              echo '::error::.env 文件未生成'
-              exit 1
-            fi
+            
             bash ./scripts/setup.sh"
 
