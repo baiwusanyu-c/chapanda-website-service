@@ -1,40 +1,40 @@
 version: '3.8'
 services:
-  chapanda-website-service:
-    build:
-      context: ./
-      dockerfile: ./Dockerfile
-    depends_on:
-      - chapanda-mysql-container
-      - chapanda-redis-container
-      - chapanda-minio-container
-    ports:
-      - 8084:8084
-    networks:
-      - common-network
+  # chapanda-website-service:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./Dockerfile
+  #   depends_on:
+  #     - chapanda-mysql-container
+  #     - chapanda-redis-container
+  #     - chapanda-minio-container
+  #   ports:
+  #     - 8084:8084
+  #   networks:
+  #     - common-network
 
-  chapanda-mysql-container:
-    image: docker.1ms.run/library/mysql
-    volumes:
-      - /chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: chapanda-website-database
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    ports:
-      - 3306:3306
-    networks:
-      - common-network
+  # chapanda-mysql-container:
+  #   image: docker.1ms.run/library/mysql
+  #   volumes:
+  #     - /chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
+  #   environment:
+  #     MYSQL_DATABASE: chapanda-website-database
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   ports:
+  #     - 3306:3306
+  #   networks:
+  #     - common-network
 
-  chapanda-redis-container:
-    image: docker.1ms.run/library/redis
-    volumes:
-      - /chapanda/docker-volume/chapanda-redis:/data
-    environment:
-      REDIS_PASSWORD: ${REDIS_ROOT_PASSWORD}
-    ports:
-      - 6379:6379
-    networks:
-      - common-network
+  # chapanda-redis-container:
+  #   image: docker.1ms.run/library/redis
+  #   volumes:
+  #     - /chapanda/docker-volume/chapanda-redis:/data
+  #   environment:
+  #     REDIS_PASSWORD: ${REDIS_ROOT_PASSWORD}
+  #   ports:
+  #     - 6379:6379
+  #   networks:
+  #     - common-network
 
   chapanda-minio-container:
     image: docker.1ms.run/bitnami/minio
