@@ -6,7 +6,7 @@ COPY package.json .
 
 RUN npm config set registry https://registry.npmmirror.com/
 
-RUN npm install pnpm
+RUN npm install pnpm --global
 
 RUN pnpm install
 
@@ -24,7 +24,7 @@ WORKDIR /chapanda-website-service
 
 RUN npm config set registry https://registry.npmmirror.com/
 
-RUN npm install pnpm
+RUN npm install pnpm --global
 
 RUN pnpm install --production
 
