@@ -59,6 +59,7 @@ services:
     image: docker.1ms.run/library/nginx:stable-alpine # 指定服务镜像
     container_name: chapanda-nginx-container # 容器名称
     restart: always # 重启方式
+    user: "root:root"
     ports: # 映射端口
       - "8000:8000"
       - "721:721"
