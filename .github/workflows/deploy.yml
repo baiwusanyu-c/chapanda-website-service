@@ -55,10 +55,6 @@ jobs:
             rm -rf ./chapanda-website-service || true
             git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
             cd ./chapanda-website-service 
-            export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
-            export REDIS_ROOT_PASSWORD='$REDIS_ROOT_PASSWORD'
-            export MINIO_ROOT_USER='$MINIO_ROOT_USER'
-            export MINIO_ROOT_PASSWORD='$MINIO_ROOT_PASSWORD'
             pnpm install
             pnpm run build
             mkdir -p dist/env
@@ -75,5 +71,9 @@ jobs:
               echo '::error::.env 文件未生成'
               exit 1
             fi
+            export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
+            export REDIS_ROOT_PASSWORD='$REDIS_ROOT_PASSWORD'
+            export MINIO_ROOT_USER='$MINIO_ROOT_USER'
+            export MINIO_ROOT_PASSWORD='$MINIO_ROOT_PASSWORD'
             bash ./scripts/setup.sh"
 
