@@ -67,7 +67,7 @@ services:
       - ~/chapanda/docker-volume/chapanda-nginx/logs:/var/log/nginx
       - ~/chapanda/docker-volume/chapanda-nginx/pid:/var/run/nginx.pid
       - ~/chapanda/docker-volume/chapanda-nginx/cert:/etc/nginx/cert
-      - ~/chapanda/docker-volume/chapanda-nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ~/chapanda/docker-volume/chapanda-nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     depends_on: # 启动顺序
       - chapanda-website-service
 networks:
