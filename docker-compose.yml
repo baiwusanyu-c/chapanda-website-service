@@ -51,7 +51,7 @@ services:
     networks:
       - common-network
   chapanda-nginx-container:
-    image: nginx:stable-alpine # 指定服务镜像
+    image: docker.1ms.run/library/nginx:stable-alpine # 指定服务镜像
     container_name: chapanda-nginx-container # 容器名称
     restart: always # 重启方式
     ports: # 映射端口
