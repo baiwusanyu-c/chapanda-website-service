@@ -62,8 +62,8 @@ services:
       - ~/chapanda/docker-volume/chapanda-nginx/conf.d:/etc/nginx/conf.d
       - ~/chapanda/docker-volume/chapanda-nginx/logs:/var/log/nginx
       - ~/chapanda/docker-volume/chapanda-nginx/cert:/etc/nginx/cert
-    depends_on: # 启动顺序
-      - chapanda-website-service
+    # depends_on: # 启动顺序
+    #   - chapanda-website-service
 networks:
   common-network:
     driver: bridge
