@@ -63,7 +63,6 @@ services:
       - "8000:8000"
       - "721:721"
     volumes: # 挂载数据卷
-      - ~/chapanda/docker-volume/chapanda-nginx/conf.d:/etc/nginx/conf.d
       - ~/chapanda/docker-volume/chapanda-nginx/logs:/var/log/nginx
       - ~/chapanda/docker-volume/chapanda-nginx/pid:/var/run/nginx.pid
       - ~/chapanda/docker-volume/chapanda-nginx/cert:/etc/nginx/cert
