@@ -12,9 +12,11 @@ services:
       - 8084:8084
     networks:
       - common-network
+    container_name: chapanda-website-service # 容器名称
 
   chapanda-mysql-container:
     image: docker.1ms.run/library/mysql
+    container_name: chapanda-mysql-container # 容器名称
     volumes:
       - ~/chapanda/docker-volume/chapanda-mysql:/var/lib/mysql
     environment:
@@ -27,6 +29,7 @@ services:
 
   chapanda-redis-container:
     image: docker.1ms.run/library/redis
+    container_name: chapanda-redis-container # 容器名称
     volumes:
       - ~/chapanda/docker-volume/chapanda-redis:/data
     environment:
@@ -38,6 +41,7 @@ services:
 
   chapanda-minio-container:
     image: bitnami/minio:latest
+    container_name: chapanda-minio-container # 容器名称
     user: "root:root"
     command: server /bitnami/minio/data --console-address ":9001"
     volumes:
@@ -62,8 +66,8 @@ services:
       - ~/chapanda/docker-volume/chapanda-nginx/conf.d:/etc/nginx/conf.d
       - ~/chapanda/docker-volume/chapanda-nginx/logs:/var/log/nginx
       - ~/chapanda/docker-volume/chapanda-nginx/cert:/etc/nginx/cert
-    # depends_on: # 启动顺序
-    #   - chapanda-website-service
+    depends_on: # 启动顺序
+      - chapanda-website-service
 networks:
   common-network:
     driver: bridge
