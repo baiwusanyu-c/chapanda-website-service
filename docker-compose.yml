@@ -68,8 +68,6 @@ services:
       - "80:80"
       - "443:443" # https 端口，妈的不用这个访问不到
     volumes: # 挂载数据卷
-      - /etc/localtime:/etc/localtime  # 宿主机时间文件
-      - /etc/timezone:/etc/timezone    # 宿主机时区文件
       - ~/chapanda/docker-volume/chapanda-nginx/logs:/var/log/nginx
       - ~/chapanda/docker-volume/chapanda-nginx/cert:/etc/nginx/cert
       # 注意下面两个是文件
