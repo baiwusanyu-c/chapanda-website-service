@@ -63,7 +63,6 @@ services:
     ports: # 映射端口
       - "8000:8000"
       - "721:721"
-      - "80:80"
       - "443:443" # https 端口，妈的不用这个访问不到
     volumes: # 挂载数据卷
       - ~/chapanda/docker-volume/chapanda-nginx/logs:/var/log/nginx
