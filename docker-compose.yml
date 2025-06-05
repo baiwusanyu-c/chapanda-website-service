@@ -60,6 +60,8 @@ services:
     container_name: chapanda-nginx-container # 容器名称
     restart: always # 重启方式
     user: "root:root"
+    environment:
+      TZ: Asia/Shanghai
     ports: # 映射端口
       - "8000:8000"
       - "721:721"
