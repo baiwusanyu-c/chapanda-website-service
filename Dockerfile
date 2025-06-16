@@ -4,12 +4,6 @@ WORKDIR /chapanda-website-service
 
 COPY . .
 
-RUN ls
-
-RUN cd env
-
-RUN ls
-
 # production stage
 FROM docker.1ms.run/library/node:23.0-alpine3.19 as production-stage
 

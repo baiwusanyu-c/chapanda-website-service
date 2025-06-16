@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+  # 后端容器
   chapanda-website-service:
     build:
       context: ./
@@ -13,6 +14,18 @@ services:
     networks:
       - common-network
     container_name: chapanda-website-service # 容器名称
+  # 前端容器
+  # chapanda-website:
+  #   build:
+  #     context: ./
+  #     dockerfile: ./Dockerfile
+  #   depends_on:
+  #     - chapanda-nginx-container
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - common-network
+  #   container_name: chapanda-website
 
   chapanda-mysql-container:
     image: docker.1ms.run/library/mysql
