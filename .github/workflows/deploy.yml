@@ -51,15 +51,15 @@ jobs:
         run: |
             ls
             mkdir -p dist/env
-            echo 'MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD' >> dist/env/.env
-            echo 'MYSQL_ROOT_USER=$MYSQL_ROOT_USER' >> dist/env/.env
-            echo 'MYSQL_SERVER_HOST=$MYSQL_SERVER_HOST' >> dist/env/.env
-            echo 'REDIS_SERVER_HOST=$REDIS_SERVER_HOST' >> dist/env/.env
-            echo 'REDIS_ROOT_PASSWORD=$REDIS_ROOT_PASSWORD' >> dist/env/.env
-            echo 'MINIO_SERVER_HOST=$MINIO_SERVER_HOST' >> dist/env/.env
-            echo 'MINIO_SERVER_ACCESS=$MINIO_SERVER_ACCESS' >> dist/env/.env
-            echo 'MINIO_SERVER_SECRET=$MINIO_SERVER_SECRET' >> dist/env/.env
-            echo 'MINIO_SERVER_BUKET=$MINIO_SERVER_BUKET' >> dist/env/.env
+            echo 'MYSQL_ROOT_PASSWORD=${{MYSQL_ROOT_PASSWORD}}' >> dist/env/.env
+            echo 'MYSQL_ROOT_USER=${{MYSQL_ROOT_USER}}' >> dist/env/.env
+            echo 'MYSQL_SERVER_HOST=${{MYSQL_SERVER_HOST}}' >> dist/env/.env
+            echo 'REDIS_SERVER_HOST=${{REDIS_SERVER_HOST}}' >> dist/env/.env
+            echo 'REDIS_ROOT_PASSWORD=${{REDIS_ROOT_PASSWORD}}' >> dist/env/.env
+            echo 'MINIO_SERVER_HOST=${{MINIO_SERVER_HOST}}' >> dist/env/.env
+            echo 'MINIO_SERVER_ACCESS=${{MINIO_SERVER_ACCESS}}' >> dist/env/.env
+            echo 'MINIO_SERVER_SECRET=${{MINIO_SERVER_SECRET}}' >> dist/env/.env
+            echo 'MINIO_SERVER_BUKET=${{MINIO_SERVER_BUKET}}' >> dist/env/.env
             if [ ! -f dist/env/.env ]; then
               echo '::error::.env 文件未生成'
               exit 1
@@ -71,7 +71,7 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
