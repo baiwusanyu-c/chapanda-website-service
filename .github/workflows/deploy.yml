@@ -21,16 +21,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      # 安装依赖 pnpm
       - name: Install pnpm
         run: npm install -g pnpm
-
+      # 安装依赖
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-
+      # 构建项目
       - name: Build project
         run: pnpm run build
-
+      # 构建完项目后，在dist/env目录生成环境变量文件，运行时会读取它
+      # 用于数据库链接等
       - name: Create env files
         run: |
             ls
@@ -48,6 +49,7 @@ jobs:
               echo '::error::.env 文件未生成'
               exit 1
             fi
+      # 与目标服务器建立 ssh 链接
       - name: Setup SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -59,6 +61,7 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
+      # 同步源码与产物到目标服务器
       - name: Rsync deployment files
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
@@ -79,7 +82,7 @@ jobs:
             cd ~/chapanda/service/chapanda-website-service
             chmod +x scripts/setup.sh
           "
-
+      # 在目标服务器中执行脚本，启动 docker compose
       - name: Run setup script
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
