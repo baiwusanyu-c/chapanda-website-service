@@ -22,7 +22,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to server
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Create env files
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
@@ -39,41 +48,50 @@ jobs:
           MINIO_SERVER_SECRET: ${{ secrets.MINIO_SERVER_SECRET }}
           MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER }}
           MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD }}
-          # 强制创建 .ssh 目录（-p 防止目录不存在报错）
-          # 将私钥内容写入文件
-          # 必须操作！SSH 协议要求私钥不可被其他用户读取,600 = 用户读写，其他无权限
-          # 自动记录服务器指纹到信任列表,避免首次连接时的 "Are you sure?" 提示阻断流程
-          # 通过 SSH 连接服务器, 进入项目目录，清空当前目录后，拉取最新代码并安装依赖、打包、写入环境变量文件
-          # 后执行 setup.sh
         run: |
-            mkdir -p ~/.ssh
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-            chmod 600 ~/.ssh/id_rsa
-            ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-            ssh $SSH_USER@$SSH_HOST "
-            cd ~/chapanda/service
-            rm -rf ./chapanda-website-service || true
-            git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
-            cd ./chapanda-website-service 
-            pnpm install
-            pnpm run build
-            mkdir -p ./chapanda-website-service/dist/env
-            echo 'MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD' >> ./chapanda-website-service/dist/env/.env
-            echo 'MYSQL_ROOT_USER=$MYSQL_ROOT_USER' >> ./chapanda-website-service/dist/env/.env
-            echo 'MYSQL_SERVER_HOST=$MYSQL_SERVER_HOST' >> ./chapanda-website-service/dist/env/.env
-            echo 'REDIS_SERVER_HOST=$REDIS_SERVER_HOST' >> ./chapanda-website-service/dist/env/.env
-            echo 'REDIS_ROOT_PASSWORD=$REDIS_ROOT_PASSWORD' >> ./chapanda-website-service/dist/env/.env
-            echo 'MINIO_SERVER_HOST=$MINIO_SERVER_HOST' >> ./chapanda-website-service/dist/env/.env
-            echo 'MINIO_SERVER_ACCESS=$MINIO_SERVER_ACCESS' >> ./chapanda-website-service/dist/env/.env
-            echo 'MINIO_SERVER_SECRET=$MINIO_SERVER_SECRET' >> ./chapanda-website-service/dist/env/.env
-            echo 'MINIO_SERVER_BUKET=$MINIO_SERVER_BUKET' >> ./chapanda-website-service/dist/env/.env
-            if [ ! -f ./chapanda-website-service/dist/env/.env ]; then
+            mkdir -p dist/env
+            echo 'MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD' >> /dist/env/.env
+            echo 'MYSQL_ROOT_USER=$MYSQL_ROOT_USER' >> /dist/env/.env
+            echo 'MYSQL_SERVER_HOST=$MYSQL_SERVER_HOST' >> /dist/env/.env
+            echo 'REDIS_SERVER_HOST=$REDIS_SERVER_HOST' >> /dist/env/.env
+            echo 'REDIS_ROOT_PASSWORD=$REDIS_ROOT_PASSWORD' >> /dist/env/.env
+            echo 'MINIO_SERVER_HOST=$MINIO_SERVER_HOST' >> /dist/env/.env
+            echo 'MINIO_SERVER_ACCESS=$MINIO_SERVER_ACCESS' >> /dist/env/.env
+            echo 'MINIO_SERVER_SECRET=$MINIO_SERVER_SECRET' >> /dist/env/.env
+            echo 'MINIO_SERVER_BUKET=$MINIO_SERVER_BUKET' >> /dist/env/.env
+            if [ ! -f /dist/env/.env ]; then
               echo '::error::.env 文件未生成'
               exit 1
             fi
-            export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
-            export REDIS_ROOT_PASSWORD='$REDIS_ROOT_PASSWORD'
-            export MINIO_ROOT_USER='$MINIO_ROOT_USER'
-            export MINIO_ROOT_PASSWORD='$MINIO_ROOT_PASSWORD'
-            bash ./scripts/setup.sh"
+      - name: Setup SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Rsync deployment files
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            --rsync-path="sudo rsync" \
+            ./ $SSH_USER@$SSH_HOST:~/chapanda/service/chenzhihui/
+
+      - name: Set execute permissions
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          ssh $SSH_USER@$SSH_HOST "
+            cd ~/chapanda/service/chenzhihui
+            chmod +x scripts/setup.sh
+          "
 
