@@ -90,4 +90,4 @@ services:
       - common-network
 networks:
   common-network:
-    driver: bridge
+    external: true
