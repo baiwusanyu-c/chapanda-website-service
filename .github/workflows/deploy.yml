@@ -32,22 +32,6 @@ jobs:
         run: pnpm run build
 
       - name: Create env files
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_ROOT_USER: ${{ secrets.MYSQL_ROOT_USER }}
-          MYSQL_SERVER_HOST: ${{ secrets.MYSQL_SERVER_HOST }}
-          REDIS_SERVER_HOST: ${{ secrets.REDIS_SERVER_HOST }}
-          REDIS_ROOT_PASSWORD: ${{ secrets.REDIS_ROOT_PASSWORD }}
-          MINIO_SERVER_HOST: ${{ secrets.MINIO_SERVER_HOST }}
-          MINIO_SERVER_BUKET: ${{ secrets.MINIO_SERVER_BUKET }}
-          MINIO_SERVER_ACCESS: ${{ secrets.MINIO_SERVER_ACCESS }}
-          MINIO_SERVER_SECRET: ${{ secrets.MINIO_SERVER_SECRET }}
-          MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER }}
-          MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD }}
         run: |
             ls
             mkdir -p dist/env
@@ -84,7 +68,7 @@ jobs:
             --exclude='.git' \
             --exclude='node_modules' \
             --rsync-path="sudo rsync" \
-            ./ $SSH_USER@$SSH_HOST:~/chapanda/service/chenzhihui/
+            ./ $SSH_USER@$SSH_HOST:~/chapanda/service/chapanda-website-service/
 
       - name: Set execute permissions
         env:
@@ -92,7 +76,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
         run: |
           ssh $SSH_USER@$SSH_HOST "
-            cd ~/chapanda/service/chenzhihui
+            cd ~/chapanda/service/chapanda-website-service
             chmod +x scripts/setup.sh
           "
 
