@@ -90,4 +90,5 @@ services:
       - common-network
 networks:
   common-network:
-    external: true
+    external: true  # 关键：引用外部网络
+    name: chapanda_website_common-network
