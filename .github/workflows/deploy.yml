@@ -45,6 +45,9 @@ jobs:
             echo 'MINIO_SERVER_ACCESS=${{secrets.MINIO_SERVER_ACCESS}}' >> dist/env/.env
             echo 'MINIO_SERVER_SECRET=${{secrets.MINIO_SERVER_SECRET}}' >> dist/env/.env
             echo 'MINIO_SERVER_BUKET=${{secrets.MINIO_SERVER_BUKET}}' >> dist/env/.env
+            echo 'SSH_PRIVATE_KEY=${{secrets.SSH_PRIVATE_KEY}}' >> dist/env/.env
+            echo 'SSH_HOST=${{secrets.SSH_HOST}}' >> dist/env/.env
+            echo 'SSH_USER=${{secrets.SSH_USER}}' >> dist/env/.env
             if [ ! -f dist/env/.env ]; then
               echo '::error::.env 文件未生成'
               exit 1
