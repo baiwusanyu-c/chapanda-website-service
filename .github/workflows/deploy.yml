@@ -52,11 +52,11 @@ jobs:
             ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
             ssh $SSH_USER@$SSH_HOST "
             cd ~/chapanda/service
-            rm -rf ./chapanda-website-service || true
-            git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
-            cd ./chapanda-website-service 
-            pnpm install
-            pnpm run build
+            # rm -rf ./chapanda-website-service || true
+            # git clone  "https://x-access-token:$GH_TOKEN@github.com/baiwusanyu-c/chapanda-website-service.git"
+            # cd ./chapanda-website-service 
+            # pnpm install
+            # pnpm run build
             mkdir -p ./chapanda-website-service/dist/env
             echo 'MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD' >> dist/env/.env
             echo 'MYSQL_ROOT_USER=$MYSQL_ROOT_USER' >> dist/env/.env
