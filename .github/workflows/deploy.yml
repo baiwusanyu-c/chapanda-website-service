@@ -57,7 +57,7 @@ jobs:
             cd ./chapanda-website-service 
             pnpm install
             pnpm run build
-            mkdir -p dist/env
+            mkdir -p ./chapanda-website-service/dist/env
             echo 'MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD' >> dist/env/.env
             echo 'MYSQL_ROOT_USER=$MYSQL_ROOT_USER' >> dist/env/.env
             echo 'MYSQL_SERVER_HOST=$MYSQL_SERVER_HOST' >> dist/env/.env
