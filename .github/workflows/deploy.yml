@@ -80,3 +80,20 @@ jobs:
             chmod +x scripts/setup.sh
           "
 
+      - name: Run setup script
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          REDIS_ROOT_PASSWORD: ${{ secrets.REDIS_ROOT_PASSWORD }}
+          MINIO_ROOT_USER: ${{ secrets.MINIO_ROOT_USER }}
+          MINIO_ROOT_PASSWORD: ${{ secrets.MINIO_ROOT_PASSWORD }}
+        run: |
+          ssh $SSH_USER@$SSH_HOST "
+            cd ~/chapanda/service/chapanda-website-service
+            export MYSQL_ROOT_PASSWORD='$MYSQL_ROOT_PASSWORD'
+            export REDIS_ROOT_PASSWORD='$REDIS_ROOT_PASSWORD'
+            export MINIO_ROOT_USER='$MINIO_ROOT_USER'
+            export MINIO_ROOT_PASSWORD='$MINIO_ROOT_PASSWORD'
+            sudo -E bash scripts/setup.sh
+          "
